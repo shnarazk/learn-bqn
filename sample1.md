@@ -4,7 +4,14 @@
 1. Source No.1
 
 ```apl
-Euler1Solve ← {+/(((3|𝕨)=0)v((5|𝕨)=0))/𝕨}
+Euler1APL ← {+/(((3|𝕨)=0)v((5|𝕨)=0))/𝕨}
+```
+
+- fold: `/` -> `´`
+- (a sort of) filter: `bools v list` -> `bools × list`
+
+```apl
+EulerBQN ← ....
 ```
 
 ```apl
