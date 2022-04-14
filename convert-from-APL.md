@@ -106,7 +106,7 @@ So, we can take a train.
 
 ```apl
      3‿5 (+˝)∘((⊢×0=|)⌜) ↕9
-⟨ 0 0 0 3 0 5 6 0 0 ⟩|))
+⟨ 0 0 0 3 0 5 6 0 0 ⟩
 ```
 
 So here's the final solution.
