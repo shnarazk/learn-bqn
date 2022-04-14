@@ -87,10 +87,9 @@ Euler001APL ← ((∨⌿3 5 ∘.(0=|)⊢)+.\×⊢) ⍳9
 Euler001BQN ← {𝕩×(∨˝)3‿5 (0=|)⌜𝕩} (1+↕9)
 ```
 
-## So roll back to 6. Not make a bitmap but filtered sequence.
+## So roll back to 6. Not make a bitmaps but filtered sequences.
 
-```
-apl
+```apl
     Euler001BQN_ ← ∨˝3‿5 (0=|)⌜ (1+↕9)
 ┌─                     
 ╵ 1 0 0 1 0 0 1 0 0 1  
@@ -115,3 +114,5 @@ So here's the final solution.
 Euler001BQN = (+˝)∘((⊢×0=|)⌜)
     3‿5 Euler001BQN 1+↕9
 ```
+
+Yay.
