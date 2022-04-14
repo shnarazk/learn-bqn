@@ -22,7 +22,7 @@ Euler001APL ← {+/((3|𝕩)=0)v((5|𝕩)=0)/𝕩}
 Euler001BQN ← {+´((0=(3|𝕩)∨(0=(5|𝕩))×𝕩}
 ```
 
-3. Unparen
+3. Unparen (partially evaluated) functions which left argument is given
 
 ```apl
 Euler001APL ← {+/(0=3|𝕩)v(0=5|𝕩)/𝕩}
