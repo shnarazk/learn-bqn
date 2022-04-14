@@ -111,8 +111,9 @@ So, we can take a train.
 
 So here's the final solution.
 ```apl
-Euler001BQN = (+˝)∘((⊢×0=|)⌜)
+    Euler001BQN ← (+˝)∘((⊢×0=|)⌜)
     3‿5 Euler001BQN 1+↕9
+⟨ 0 0 3 0 5 6 0 0 9 ⟩
 ```
 
 Yay.
