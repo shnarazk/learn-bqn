@@ -87,7 +87,7 @@ Euler001APL ← ((∨⌿3 5 ∘.(0=|)⊢)+.\×⊢) ⍳9
 Euler001BQN ← {𝕩×(∨˝)3‿5 (0=|)⌜𝕩} (1+↕9)
 ```
 
-## So roll back to 6. Not make a bitmaps but filtered sequences.
+## 6'. So roll back to 6. Not make a bitmaps but filtered sequences.
 
 ```apl
     Euler001BQN_ ← ∨˝3‿5 (0=|)⌜ (1+↕9)
@@ -105,15 +105,23 @@ Euler001BQN ← {𝕩×(∨˝)3‿5 (0=|)⌜𝕩} (1+↕9)
 So, we can take a train.
 
 ```apl
-     3‿5 (+˝)∘((⊢×0=|)⌜) ↕9
+     3‿5 (⌈˝)∘((⊢×0=|)⌜) ↕9
 ⟨ 0 0 0 3 0 5 6 0 0 ⟩
 ```
 
+- (2022-04-15) bug fixed: substitute `+` with `⌈`
+
 So here's the final solution.
 ```apl
-    Euler001BQN ← (+˝)∘((⊢×0=|)⌜)
+    Euler001BQN ← (⌈˝)∘((⊢×0=|)⌜)
     3‿5 Euler001BQN 1+↕9
 ⟨ 0 0 3 0 5 6 0 0 9 ⟩
 ```
 
 Yay.
+
+## 7. Unparen
+
+```apl
+Euler001BQN ← ⌈˝∘((⊢×0=|)⌜)
+```
