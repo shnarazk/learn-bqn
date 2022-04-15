@@ -8,8 +8,11 @@ Haskellを使ったことがあれば、APLはなんだpoint free化必須言語
 
 では、まず作るところから。
 
-tableを用意するには、二つのリストの外積から始めるのが簡単。
-それには`≍`を使う。
+## 生成
+
+- https://mlochbaum.github.io/BQN/doc/map.html#table
+
+#### 二つのリストから`≍`でtableを構成する
 
 ```apl
   1‿2 ≍ 3‿4‿5
@@ -19,7 +22,11 @@ tableを用意するには、二つのリストの外積から始めるのが簡
 ちなみにリストのリストは深さが2で次元が2なのではない。
 だからstrandをネストさせてもtableにはならない。
 
-### metrics
+#### 二つのリストの外積`𝔽⌜`として生成する
+
+- https://mlochbaum.github.io/BQN/doc/map.html#table
+
+## metrics
 
 | metrics     | symbol  | key |                    |
 |:------------|:-------:|:---:|--------------------|
@@ -28,7 +35,9 @@ tableを用意するには、二つのリストの外積から始めるのが簡
 | 深さ(depth) |    ≡    | \m  | ネストで増えていく |
 | 形状(shape) |    ≢    | \M  | リストで返ってくる |
 
-### folding
+## folding
+
+- https://mlochbaum.github.io/BQN/doc/fold.html#insert
 
  `𝔽˝`はリストにしか使えない`𝔽´`を一般化したもの。
 
@@ -43,5 +52,7 @@ tableを用意するには、二つのリストの外積から始めるのが簡
 となる。
 
 ### mapping
-  
-`𝔽⌜`はリストにしか使えない`𝔽¨`を一般化したもの。
+
+- https://mlochbaum.github.io/BQN/doc/map.html#mapping-modifiers
+
+リストと同じく`𝔽¨`が使える。
