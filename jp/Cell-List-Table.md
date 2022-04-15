@@ -35,6 +35,14 @@ Haskellを使ったことがあれば、APLはなんだpoint free化必須言語
 | 深さ(depth) |    ≡    | \m  | ネストで増えていく |
 | 形状(shape) |    ≢    | \M  | リストで返ってくる |
 
+## indexing
+
+under construction
+
+## filtering
+
+under construction
+
 ## folding
 
 - https://mlochbaum.github.io/BQN/doc/fold.html#insert
