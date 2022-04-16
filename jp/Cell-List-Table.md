@@ -26,6 +26,13 @@ Haskellを使ったことがあれば、APLはなんだpoint free化必須言語
 
 - https://mlochbaum.github.io/BQN/doc/map.html#table
 
+## adding
+
+- https://mlochbaum.github.io/BQN/doc/join.html
+
+tableに要素を追加する、すなわちHaskellでの`a -> [a] -> [a]`がやりたいなら`∾`を使う。
+これは要素が左引数なら先頭に追加し、右引数なら最後に追加する。
+
 ## metrics
 
 | metrics     | symbol  | key |                    |
