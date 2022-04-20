@@ -25,7 +25,7 @@
         # Make terms and Sum them up
         3++´¯4⊸÷×⟜(×`¯1˙¨) ((×´˘(0‿1‿2⊸ +)˘ ∘(∘‿3 ⊸ ⥊) ∘(3⊸ /)∘ (2⊸×))) (1⊸+↕10)
 3.1414067184965018
-        # And make it a pure train (failed to optimize)
+        # And make it a pure train (failed to shorten)
         (3⊸+)∘(+´)∘(¯4⊸÷×⟜(×`¯1˙¨))∘(×´˘(0‿1‿2⊸+)˘∘(∘‿3⊸⥊)∘(3⊸/)∘(2⊸×)) (1⊸+↕1000)
 3.141592653340542
 ```
