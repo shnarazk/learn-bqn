@@ -33,7 +33,7 @@
 ### Escape sequence
 
 ```apl
-!/usr/bin/env bqn
+#!/usr/bin/env bqn
 
 esc ← (' ' - 5)
 •Out esc∾"[0;38;5;9mred"
