@@ -35,6 +35,6 @@
 ```apl
 #!/usr/bin/env bqn
 
-esc ← (' ' - 5)
+esc ← ' ' - 5 # ; don't know how to denote it as literal
 •Out esc∾"[0;38;5;9mred"
 ```
