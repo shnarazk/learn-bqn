@@ -29,3 +29,12 @@
         (3⊸+)∘(+´)∘(¯4⊸÷×⟜(×`¯1˙¨))∘(×´˘(0‿1‿2⊸+)˘∘(∘‿3⊸⥊)∘(3⊸/)∘(2⊸×)) (1⊸+↕1000)
 3.141592653340542
 ```
+
+### Escape sequence
+
+```apl
+#!/usr/bin/env bqn
+
+esc ← ' ' - 5 # I do not know how to encode it as literal
+•Out esc∾"[0;38;5;9mred"
+```
