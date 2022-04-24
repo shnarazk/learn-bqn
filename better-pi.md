@@ -15,6 +15,14 @@
        ┘
 ```
 
+```mermaid
+flowchart TD
+A["𝕩"] -- "𝕩.0" --> B[Left];
+B --> D["⟨-, -⟩"];
+A -- "𝕩.1" --> C[Right];
+C --> D;
+```
+
 ## Approach: make a list of a sigh-alternating sequence and the denominators
 from natural numbers
 
@@ -29,10 +37,27 @@ from natural numbers
 3.141592653340542
 ```
 
+```mermaid
+flowchart TD
+A["𝕩"] --> B["⟨𝕩⋄𝕩⟩"];
+B -- "𝕩.0" --> C[Sign];
+B -- "𝕩.1" --> D[Denom];
+C --> E["÷"];
+D --> E;
+```
+
 ## No need to make a tuple
 
 ```apl
     3+4×+´{ (Sign 𝕩)÷(Denom 𝕩) }¨ ↕1000
+```
+
+```mermaid
+flowchart TD
+A["𝕩"] --> B[Sign];
+B --> D["÷"];
+A --> C[Denom];
+C --> D;
 ```
 
 ### Back to train
