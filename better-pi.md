@@ -23,7 +23,7 @@ A -- "𝕩.1" --> C[Right];
 C --> D;
 ```
 
-## Approach: make a list of a sigh-alternating sequence and the denominators
+## Approach: make a list of a sign-alternating sequence and the denominators
 from natural numbers
 
 ```apl
@@ -46,7 +46,7 @@ C --> E["÷"];
 D --> E;
 ```
 
-## BUT, no need to make a tuple explicitly
+## But, we don't need to make tuples explicitly
 
 ```apl
     3+4×+´{ (Sign 𝕩)÷(Denom 𝕩) }¨ ↕1000
@@ -60,7 +60,7 @@ A --> C[Denom];
 C --> D;
 ```
 
-### Back to train
+## Back to train
 
 ```apl
     Sign ← { 1-2×2|𝕩 }
