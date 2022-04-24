@@ -34,3 +34,9 @@ from natural numbers
 ```apl
    3+4×+´{ (Sign 𝕩)÷(Denom 𝕩) }¨ ↕1000
 ```
+
+### Back to train
+
+```apl
+   3+4×+´((Sign⊢)÷(Denom⊢))¨ ↕1000
+```
