@@ -32,11 +32,13 @@ from natural numbers
 ## No need to make a tuple
 
 ```apl
-   3+4×+´{ (Sign 𝕩)÷(Denom 𝕩) }¨ ↕1000
+    3+4×+´{ (Sign 𝕩)÷(Denom 𝕩) }¨ ↕1000
 ```
 
 ### Back to train
 
 ```apl
-   3+4×+´((Sign⊢)÷(Denom⊢))¨ ↕1000
+    Sign ← { 1-2×2|𝕩 }
+    Denom ← { ×´(0‿1‿2⊸+)(2⊸×1+𝕩) }
+    3+4×+´((Sign⊢)÷(Denom⊢))¨ ↕1000
 ```
