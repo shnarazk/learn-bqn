@@ -32,5 +32,5 @@ from natural numbers
 ## No need to make a tuple
 
 ```apl
-   3+4÷+´{ ⟨Sign 𝕩)÷(Denom 𝕩⟩ }¨ ↕1000
+   3+4×+´{ (Sign 𝕩)÷(Denom 𝕩) }¨ ↕1000
 ```
