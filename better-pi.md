@@ -46,7 +46,7 @@ C --> E["÷"];
 D --> E;
 ```
 
-## No need to make a tuple
+## BUT, no need to make a tuple explicitly
 
 ```apl
     3+4×+´{ (Sign 𝕩)÷(Denom 𝕩) }¨ ↕1000
