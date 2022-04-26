@@ -44,6 +44,8 @@ tableに要素を追加する、すなわちHaskellでの`a -> [a] -> [a]`がや
 
 ## indexing
 
+- https://mlochbaum.github.io/BQN/doc/indices.html
+
 ⊏⊑を使う。二つ組を処理したいなら
 
 ```APL
