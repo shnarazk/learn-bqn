@@ -57,6 +57,12 @@ tableに要素を追加する、すなわちHaskellでの`a -> [a] -> [a]`がや
 - https://mlochbaum.github.io/BQN/doc/replicate.html
 
 `\`はそれぞれの要素の個数を指定するので要素の有無指定以上のことができる。
+
+```apl
+    0‿1‿1‿0‿3 / "abcde"
+"bceee"
+```
+
 ただしフィルタリング関数でピックアップするのはarray-orientedではないのかもしれない。
 
 ## folding
