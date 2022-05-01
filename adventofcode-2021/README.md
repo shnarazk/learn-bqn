@@ -22,6 +22,15 @@ vrdear
 dvrsen
 enarar
 "
+  ⍉6↑˘∘‿7 ⥊ input
+┌─                  
+╵"ederatsrnnstvvde  
+  eraatsdastvenrvn  
+  dvnaertssnestdra  
+  atdvvntrdatnsesr  
+  desrresttdvvnaea  
+  nerdsvavsaetdrnr" 
+                   ┘
   ⊒˘⍉6↑˘∘‿7 ⥊ input
 ┌─                                 
 ╵ 0 0 1 0 0 0 0 1 0 1 1 1 0 1 1 2  
