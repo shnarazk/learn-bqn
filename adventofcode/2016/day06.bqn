@@ -1,6 +1,6 @@
 #!/usr/bin/env bqn
 
-input ← "eedadn
+example ← "eedadn
 drvtee
 eandsr
 raavrd
@@ -18,13 +18,19 @@ dvrsen
 enarar
 "
 
-keys ← ⍉6↑˘∘‿7 ⥊ input
-•Show keys
+example_keys ← ⍉6↑˘∘‿7 ⥊ example
+•Show example_keys
 
 Pick ← { 
     i ← (¯1⊸⊏∘⍋∘⊒)˘ 𝕩
     { (0⊑𝕩)⊑(1⊑𝕩) }˘ ⍉ (i ≍ (<˘ 𝕩))
 }
 
-•Show ⊒˘ keys
+# •Show ⊒˘ example_keys
+•Show Pick example_keys
+
+lines ← ⥊ •FLines "../data/2016/input-day06.txt"
+•Show 10 ↑ lines
+keys ← ⍉ ∘‿8 ⥊ ∾´ lines
+•Show keys
 •Show Pick keys
