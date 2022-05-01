@@ -2,7 +2,9 @@
 
 - https://github.com/shnarazk/advent-of-code
 
-# Advent of Code 2016 day 7?
+# Advent of Code 2016 day 6
+
+- https://adventofcode.com/2016/day/6
 
 ```apl
   input ← "eedadn
