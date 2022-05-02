@@ -19,7 +19,7 @@ enarar
 "
 
 example_keys ← ⍉6↑˘∘‿7 ⥊ example
-•Show example_keys
+# •Show example_keys
 
 PickMost ← {
     i ← (¯1⊸⊏∘⍋∘⊒)˘ 𝕩
@@ -27,41 +27,38 @@ PickMost ← {
 }
 
 # •Show ⊒˘ example_keys
+•Show "Part 1"
 •Show PickMost example_keys
 
 lines ← ⥊ •FLines "../data/2016/input-day06.txt"
-•Show 10 ↑ lines
+# •Show 10 ↑ lines
 keys ← ⍉ ∘‿8 ⥊ ∾´ lines
 # •Show keys
-# •Show PickMost keys
+•Show PickMost keys
 
+•Show "Part 2"
 PickLeast ← {
     bigN ← +´⥊≠⌜ 𝕩
     letters ← (<)˘ 𝕩
     •Show "letters"
     •Show letters
-    occurs ← (< 1+ ⊒)˘ 𝕩
-    •Show "occurs"
+    occurs ← (1+ ⊒)¨ letters
+    •Show "numbers of occurs"
     •Show ⍉ occurs
-    targets ← (<⌽∘∊∘⌽)˘ 𝕩
+    targets ← (⌽∘∊∘⌽)¨ letters
     •Show "targets"
     •Show targets
     ot ← occurs × targets
-    •Show "ot = occurs × targets"
-    •Show ot
+#    •Show "ot = occurs × targets"
+#    •Show ot
     scores ← ot + bigN × 1 - targets
-    •Show "scores"
-    •Show scores
+#    •Show "scores"
+#    •Show scores
     leasts ← ⌊´¨ scores
-    # lst_pos ← { (0⊑𝕩)⊒(1⊑𝕩) }
+    •Show "leasts"
     •Show leasts
-    # •Show {(𝕩⊑leasts) }¨ ↕≠ leasts
     indices ← >{(𝕩⊑scores) ⊐ (𝕩⊑leasts) }¨ ↕≠ leasts
-    •Show >{(𝕩⊑indices) ⊑ (𝕩⊑letters) }¨ ↕≠ leasts
-
-    # ot
-    # i ← (¯1⊸⊏∘⍋∘⊒)˘ 𝕩
-    # { (0⊑𝕩)⊑(1⊑𝕩) }˘ ⍉ (i ≍ (<˘ 𝕩))
+    >{(𝕩⊑indices) ⊑ (𝕩⊑letters) }¨ ↕≠ leasts
 }
-PickLeast example_keys
-PickLeast keys
+•Show PickLeast example_keys
+# •Show PickLeast keys
