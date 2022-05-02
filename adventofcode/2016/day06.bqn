@@ -21,16 +21,47 @@ enarar
 example_keys ← ⍉6↑˘∘‿7 ⥊ example
 •Show example_keys
 
-Pick ← { 
+PickMost ← {
     i ← (¯1⊸⊏∘⍋∘⊒)˘ 𝕩
     { (0⊑𝕩)⊑(1⊑𝕩) }˘ ⍉ (i ≍ (<˘ 𝕩))
 }
 
 # •Show ⊒˘ example_keys
-•Show Pick example_keys
+•Show PickMost example_keys
 
 lines ← ⥊ •FLines "../data/2016/input-day06.txt"
 •Show 10 ↑ lines
 keys ← ⍉ ∘‿8 ⥊ ∾´ lines
-•Show keys
-•Show Pick keys
+# •Show keys
+# •Show PickMost keys
+
+PickLeast ← {
+    bigN ← +´⥊≠⌜ 𝕩
+    letters ← (<)˘ 𝕩
+    •Show "letters"
+    •Show letters
+    occurs ← (< 1+ ⊒)˘ 𝕩
+    •Show "occurs"
+    •Show ⍉ occurs
+    targets ← (<⌽∘∊∘⌽)˘ 𝕩
+    •Show "targets"
+    •Show targets
+    ot ← occurs × targets
+    •Show "ot = occurs × targets"
+    •Show ot
+    scores ← ot + bigN × 1 - targets
+    •Show "scores"
+    •Show scores
+    leasts ← ⌊´¨ scores
+    # lst_pos ← { (0⊑𝕩)⊒(1⊑𝕩) }
+    •Show leasts
+    # •Show {(𝕩⊑leasts) }¨ ↕≠ leasts
+    indices ← >{(𝕩⊑scores) ⊐ (𝕩⊑leasts) }¨ ↕≠ leasts
+    •Show >{(𝕩⊑indices) ⊑ (𝕩⊑letters) }¨ ↕≠ leasts
+
+    # ot
+    # i ← (¯1⊸⊏∘⍋∘⊒)˘ 𝕩
+    # { (0⊑𝕩)⊑(1⊑𝕩) }˘ ⍉ (i ≍ (<˘ 𝕩))
+}
+PickLeast example_keys
+PickLeast keys
