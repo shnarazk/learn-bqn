@@ -35,6 +35,8 @@ tableに要素を追加する、すなわちHaskellでの`a -> [a] -> [a]`がや
 
 ## metrics
 
+- https://github.com/shnarazk/learn-bqn/blob/main/jp/Array-dimensions.md
+
 | metrics     | symbol  | key |                    |
 |:------------|:-------:|:---:|--------------------|
 | 次元(rank)  |    =    |  =  | 外積で増えていく   |
