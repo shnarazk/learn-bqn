@@ -5,15 +5,7 @@ example ← ⟨
     "aaaa[qwer]tyui"
     "ioxxoj[asdfgh]zxcvbn"
 ⟩
-•Show example
-WithMask0 ← {
-    masks ← 1 ↓ ⟨1⟩ {
-        '[' = 𝕨 ? 𝕩∾0;
-        ']' = 𝕨 ? 𝕩∾1;
-        𝕩∾(¯1⊑𝕩)
-    }´ ⌽ 𝕩
-    <˘ ⍉ masks ≍ 𝕩
-}
+a_example ← 5↑ ⥊ •FLines "../data/2016/input-day07.txt"
 Split ← { F letters:
     masks ← ⟨1, ⟨""⟩, ⟨⟩⟩ {
         '[' 𝕊 𝕩 : ⟨¯1×(⊑𝕩)    , 1⊑𝕩               , ⟨""⟩∾(2⊑𝕩)       ⟩;
@@ -24,21 +16,15 @@ Split ← { F letters:
     (⌽¨1⊑masks)‿(⌽¨2⊑masks)
 }
 Check ← {
-    CheckWord ← {
-        (0⊑𝕩 = 3⊑𝕩) ∧ (1⊑𝕩 = 2⊑𝕩) ∧ (0⊑𝕩 ≠ 1⊑𝕩)  
-    }
+    CheckWord ← { (0⊑𝕩 = 3⊑𝕩) ∧ (1⊑𝕩 = 2⊑𝕩) ∧ (0⊑𝕩 ≠ 1⊑𝕩) }
     CheckChunk ← {
         4 > ≠𝕩 ? 0;
         0 < ⌈´CheckWord¨ <˘4↕𝕩
     }
     (0 < ⌈´CheckChunk¨ 0⊑𝕩) ∧ (0 = ⌈´CheckChunk¨ 1⊑𝕩)
 }
-•Show Split¨ example
+•Show example
+•Show ⥊>Split¨ example
 •Show (Check∘Split)¨ example
 •Show +´(Check∘Split)¨ example
-lines ← ⥊ •FLines "../data/2016/input-day07.txt"
-# lines ← 10↑ ⥊ •FLines "../data/2016/input-day07.txt"
-# •Show lines
-# •Show (Check∘Split)¨ lines
-•Show +´(Check∘Split)¨ lines
-
+•Show +´(Check∘Split)¨ ⥊ •FLines "../data/2016/input-day07.txt"
