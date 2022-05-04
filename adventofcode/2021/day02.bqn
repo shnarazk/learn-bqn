@@ -10,6 +10,31 @@ Encode ← {
         '?'‿0
     }
 }
+Part1Move ← {
+    x   ← 0⊑𝕩
+    y   ← 1⊑𝕩
+    key ← 0⊑𝕨
+    val ← 1⊑𝕨
+    {
+        'D' = key ? x       ‿ (y+val);
+        'U' = key ? x       ‿ (y-val);
+        'F' = key ? (x+val) ‿ y;
+        key‿val ! 0
+    }
+}
+Part2Move ← {
+    x   ← 0⊑𝕩
+    y   ← 1⊑𝕩
+    aim ← 2⊑𝕩
+    key ← 0⊑𝕨
+    val ← 1⊑𝕨
+    {
+        'D' = key ? x       ‿ y           ‿ (aim+val);
+        'U' = key ? x       ‿ y           ‿ (aim-val);
+        'F' = key ? (x+val) ‿ (y+aim×val) ‿ aim;
+        key‿val ! 0
+    }
+}
 
 input ← ⟨
     "forward 5",
@@ -24,11 +49,6 @@ input ← ⟨
 # •Show (⊑ input) StartsWith "forward "
 orders ← (<Encode)˘ input
 •Show orders
-Move ← {
-    'D' = (⊑𝕨) ? (⊑𝕩)       ‿ ((1⊑𝕩)+(1⊑𝕨));
-    'U' = (⊑𝕨) ? (⊑𝕩)       ‿ ((1⊑𝕩)-(1⊑𝕨));
-    'F' = (⊑𝕨) ? (⊑𝕩+(1⊑𝕨)) ‿ (1⊑𝕩);
-    𝕨‿𝕩 ! 0
-}
-•Show ×´ 0‿0 Move´ ⌽ orders
-•Show ×´ 0‿0 Move´ ⌽ (<Encode)˘ •FLines "../data/2021/input-day02.txt"
+•Show ×´ 0‿0 Part1Move´ ⌽ orders
+•Show ×´ 0‿0 Part1Move´ ⌽ (<Encode)˘ •FLines "../data/2021/input-day02.txt"
+•Show ×´ 2↑ 0‿0‿0 Part2Move´ ⌽ (<Encode)˘ •FLines "../data/2021/input-day02.txt"
