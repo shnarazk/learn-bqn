@@ -19,3 +19,22 @@ Check ← {
 •Show ⥊>Split¨ example
 •Show (Check∘Split)¨ example
 •Show +´(Check∘Split)¨ ⥊ •FLines "../data/2016/input-day07.txt"
+
+# Part 2: SSL #####################################
+CheckSSL ← {
+    CheckWord ← { (0⊑𝕩 = 2⊑𝕩) ∧ (0⊑𝕩 ≠ 1⊑𝕩) }
+    Pickup ← { 3 > ≠𝕩 ? 0; CheckWord¨⊸/ <˘3↕𝕩 }
+    CrossCheck ← { w ← ⥊>𝕨 ⋄ x ← ⥊>𝕩 ⋄ (0⊑w ≠ '_') ∧ (0⊑w = 1⊑x) ∧ (1⊑w = 0⊑x) }
+    outies ← ∾´Pickup¨ 0⊑𝕩
+    innies ← ∾´Pickup¨ 1⊑𝕩
+    {
+        (0 = ≠outies) ∨ (0 = ≠innies) ? 0;
+        ⌈´⥊outies CrossCheck⌜ innies
+    }
+}
+example2 ← ⟨ "aba[bab]xyz", "xyx[xyx]xyx", "aaa[kek]eke", "zazbz[bzb]cdb" ⟩
+# example2 ← 5↑ ⥊ •FLines "../data/2016/input-day07.txt"
+•Show example2
+•Show >Split¨ example2
+•Show (CheckSSL∘Split)¨ example2
+•Show +´(CheckSSL∘Split)¨ ⥊ •FLines "../data/2016/input-day07.txt"
