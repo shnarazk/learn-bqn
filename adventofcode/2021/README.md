@@ -11,5 +11,14 @@ https://mlochbaum.github.io/BQN/try.html#code=RiDihpAgewogIHRlbXAg4oaQIDAKICDwnZ
 `;`はブロックの途中でreturnするものではなく、そこでブロックが終っている。
 関数が複数回定義されていると思った方がよい。
 
+```apl
+F ← {
+  temp ← 0
+  𝕩 = 1 ? temp + 1;
+  temp ← 0        # 2重定義にならない
+  temp + 2
+}
+```
+
 See https://mlochbaum.github.io/BQN/doc/block.html#multiple-bodies
 
