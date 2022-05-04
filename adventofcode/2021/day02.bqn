@@ -1,13 +1,11 @@
 #!/usr/bin/env bqn
 
-StartsWith ← {
-    (≠𝕨) < (≠𝕩) ? 0 ; 0 = (<˘(≠𝕩)↕𝕨) ⊑∘⊐⟜< 𝕩
-}
+StartsWith ← { (≠𝕨) < (≠𝕩) ? 0 ; 0 = (<˘(≠𝕩)↕𝕨) ⊑∘⊐⟜< 𝕩 }
 
 Encode ← {
-    ((> 𝕩) StartsWith "forward") ? 'F'‿1;
-    ((> 𝕩) StartsWith "down") ? 'D'‿1;
-    ((> 𝕩) StartsWith "up") ? 'U'‿1;
+    ((> 𝕩) StartsWith "forward") ? 'F'‿(•BQN 7↓(> 𝕩));
+    ((> 𝕩) StartsWith "down"   ) ? 'D'‿(•BQN 5↓(> 𝕩));
+    ((> 𝕩) StartsWith "up"     ) ? 'U'‿(•BQN 3↓(> 𝕩));
     '?'‿0
 }
 
