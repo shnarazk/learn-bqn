@@ -1,8 +1,14 @@
 #!/usr/bin/env bqn
 
 StartsWith ← {
-    len ← ≠𝕩
-    0 = (<˘len↕𝕨) ⊑∘⊐⟜< 𝕩
+    (≠𝕨) < (≠𝕩) ? 0 ; 0 = (<˘(≠𝕩)↕𝕨) ⊑∘⊐⟜< 𝕩
+}
+
+Encode ← {
+    ((> 𝕩) StartsWith "forward") ? 'F'‿1;
+    ((> 𝕩) StartsWith "down") ? 'D'‿1;
+    ((> 𝕩) StartsWith "up") ? 'U'‿1;
+    '?'‿0
 }
 
 input ← ⟨
@@ -15,6 +21,5 @@ input ← ⟨
 ⟩
 
 •Show input
-•Show (⊑ input)
-•Show (<˘3↕⊑ input)
-•Show (⊑ input) StartsWith "for"
+# •Show (⊑ input) StartsWith "forward "
+•Show (<Encode)˘ input
