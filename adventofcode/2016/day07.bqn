@@ -12,14 +12,10 @@ Split ← { F letters:
 }
 Check ← {
     CheckWord ← { (0⊑𝕩 = 3⊑𝕩) ∧ (1⊑𝕩 = 2⊑𝕩) ∧ (0⊑𝕩 ≠ 1⊑𝕩) }
-    CheckChunk ← {
-        4 > ≠𝕩 ? 0;
-        0 < ⌈´CheckWord¨ <˘4↕𝕩
-    }
+    CheckChunk ← { 4 > ≠𝕩 ? 0; 0 < ⌈´CheckWord¨ <˘4↕𝕩 }
     (0 < ⌈´CheckChunk¨ 0⊑𝕩) ∧ (0 = ⌈´CheckChunk¨ 1⊑𝕩)
 }
 •Show example
 •Show ⥊>Split¨ example
 •Show (Check∘Split)¨ example
-•Show +´(Check∘Split)¨ example
 •Show +´(Check∘Split)¨ ⥊ •FLines "../data/2016/input-day07.txt"
