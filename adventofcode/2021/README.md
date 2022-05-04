@@ -4,5 +4,7 @@
 
 ## Memo
 
-- (day2) `Encode`の中で何故 `> 𝕩`をローカル変数として定義できない？
+### (day2) `Encode`の中で何故 `> 𝕩`をローカル変数として定義できない？
+
+https://mlochbaum.github.io/BQN/try.html#code=RiDihpAgewogIHRlbXAg4oaQIDAKICDwnZWpID0gMSA/IHRlbXAgKyAxOwogIHRlbXAg4oaQIDAKICB0ZW1wICsgMgp9CkYgMA==
 
