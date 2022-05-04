@@ -2,10 +2,13 @@
 
 StartsWith ← { (≠𝕨) < (≠𝕩) ? 0 ; 0 = (<˘(≠𝕩)↕𝕨) ⊑∘⊐⟜< 𝕩 }
 Encode ← {
-    ((> 𝕩) StartsWith "forward") ? 'F'‿(•BQN 7↓(> 𝕩));
-    ((> 𝕩) StartsWith "down"   ) ? 'D'‿(•BQN 5↓(> 𝕩));
-    ((> 𝕩) StartsWith "up"     ) ? 'U'‿(•BQN 3↓(> 𝕩));
-    '?'‿0
+    line ← > 𝕩
+    {
+        (line StartsWith "forward") ? 'F'‿(•BQN 7↓line);
+        (line StartsWith "down"   ) ? 'D'‿(•BQN 5↓line);
+        (line StartsWith "up"     ) ? 'U'‿(•BQN 3↓line);
+        '?'‿0
+    }
 }
 
 input ← ⟨
