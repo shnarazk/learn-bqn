@@ -2,9 +2,11 @@
 
 - https://github.com/shnarazk/advent-of-code
 
-## Memo
+## day2
 
-### (day2) `Encode`の中で何故 `> 𝕩`をローカル変数として定義できない？
+- Much better decoder: https://github.com/dancek/bqn-advent2021/blob/master/02.bqn
+
+### `Encode`の中で何故 `> 𝕩`をローカル変数として定義できない？
 
 https://mlochbaum.github.io/BQN/try.html#code=RiDihpAgewogIHRlbXAg4oaQIDAKICDwnZWpID0gMSA/IHRlbXAgKyAxOwogIHRlbXAg4oaQIDAKICB0ZW1wICsgMgp9CkYgMA==
 
@@ -19,6 +21,8 @@ F ← {
   temp + 2
 }
 ```
+
+結局、ブロックを二重にすることにした。
 
 See https://mlochbaum.github.io/BQN/doc/block.html#multiple-bodies
 
