@@ -2,3 +2,7 @@
 
 - https://github.com/shnarazk/advent-of-code
 
+## Memo
+
+- (day2) `Encode`の中で何故 `> 𝕩`をローカル変数として定義できない？
+
