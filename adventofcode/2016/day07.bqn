@@ -10,7 +10,7 @@ Split ← { F letters:
 }
 
 # Part 1: TLS #####################################
-Check ← {
+CheckTLS ← {
     CheckWord ← { (0⊑𝕩 = 3⊑𝕩) ∧ (1⊑𝕩 = 2⊑𝕩) ∧ (0⊑𝕩 ≠ 1⊑𝕩) }
     CheckChunk ← { 4 > ≠𝕩 ? 0; 0 < ⌈´CheckWord¨ <˘4↕𝕩 }
     (0 < ⌈´CheckChunk¨ 0⊑𝕩) ∧ (0 = ⌈´CheckChunk¨ 1⊑𝕩)
@@ -19,8 +19,8 @@ example ← ⟨ "abba[mnop]qrst", "abcd[bddb]xyyx", "aaaa[qwer]tyui", "ioxxoj[as
 a_example ← 5↑ ⥊ •FLines "../data/2016/input-day07.txt"
 •Show example
 •Show ⥊>Split¨ example
-•Show (Check∘Split)¨ example
-•Show +´(Check∘Split)¨ ⥊ •FLines "../data/2016/input-day07.txt"
+•Show (CheckTLS∘Split)¨ example
+•Show +´(CheckTLS∘Split)¨ ⥊ •FLines "../data/2016/input-day07.txt"
 
 # Part 2: SSL #####################################
 CheckSSL ← {
