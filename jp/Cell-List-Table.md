@@ -89,9 +89,9 @@ tableに要素を追加する、すなわちHaskellでの`a -> [a] -> [a]`がや
 
 リストと同じく`𝔽¨`が使える。
 
-### update
+### updating
 
-immutableなのでできない。Underを使ったopticsのようなことはできる。
+arrayはimmutableなので変更できない。Underを使ったopticsのようなことはできる。
 
 > The Under 2-modifier expresses the idea of modifying part of an array, or applying a function in a different domain, such as working in logarithmic space.
 
