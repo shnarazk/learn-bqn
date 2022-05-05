@@ -27,12 +27,7 @@ CheckSSL ← {
     CheckWord ← { (0⊑𝕩 = 2⊑𝕩) ∧ (0⊑𝕩 ≠ 1⊑𝕩) }
     Pickup ← { 3 > ≠𝕩 ? 0; CheckWord¨⊸/ <˘3↕𝕩 }
     CrossCheck ← { w ← ⥊>𝕨 ⋄ x ← ⥊>𝕩 ⋄ (0⊑w ≠ '_') ∧ (0⊑w = 1⊑x) ∧ (1⊑w = 0⊑x) }
-    outies ← ∾´Pickup¨ 0⊑𝕩
-    innies ← ∾´Pickup¨ 1⊑𝕩
-    {
-        (0 = ≠outies) ∨ (0 = ≠innies) ? 0;
-        ⌈´⥊outies CrossCheck⌜ innies
-    }
+    0⌈´⥊(∾´Pickup¨ 0⊑𝕩) CrossCheck⌜ (∾´Pickup¨ 1⊑𝕩)
 }
 example2 ← ⟨ "aba[bab]xyz", "xyx[xyx]xyx", "aaa[kek]eke", "zazbz[bzb]cdb" ⟩
 # example2 ← 5↑ ⥊ •FLines "../data/2016/input-day07.txt"
