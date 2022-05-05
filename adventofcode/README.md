@@ -1,5 +1,8 @@
 # I need a library
 
+- [ ] namespace
+- [ ] unit test
+
 - `startsWith` as an alternative to regex
 - `getNumbers`; it's essential.
 
