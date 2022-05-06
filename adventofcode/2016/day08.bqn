@@ -29,3 +29,4 @@ example ← ⟨ "rect 3x2", "rotate column x=1 by 1", "rotate row y=0 by 4", "ro
 •Show +´'#'=¨ ⥊ screen Eval´⌽ Decode¨ ⥊ •FLines "../data/2016/input-day08.txt"
 
 # Part 2: #####################################
+•Show screen Eval´⌽ Decode¨ ⥊ •FLines "../data/2016/input-day08.txt"
