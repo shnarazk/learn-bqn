@@ -1,10 +1,10 @@
 # I need a library
 
-- [ ] namespace https://mlochbaum.github.io/BQN/doc/namespace.html
+- [x] namespace https://mlochbaum.github.io/BQN/doc/namespace.html
 - [ ] unit test
 
 - `startsWith` as an alternative to regex
-- `getNumbers`; it's essential.
+- `ParseInts`; it's essential.
 - Control flow https://mlochbaum.github.io/BQN/doc/control.html
 
 ```apl
@@ -19,7 +19,7 @@ Switch ← {c←⊑𝕩 ⋄ a‿m←<˘⍉∘‿2⥊1↓𝕩 ⋄ (⊑a⊸⊐<c)�
 Test    ← {fn←{C‿A𝕊e:C◶A‿E}´𝕩⋄Fn@}
 
 StartsWith ← { (≠𝕨) < (≠𝕩) ? 0 ; 0 = (<˘(≠𝕩)↕𝕨) ⊑∘⊐⟜< 𝕩 }
-GetNums ← {
+ParseInts ← {
   IsNum ← { (('0' ≤ 𝕩) ∧ (𝕩 ≤ '9')) ∨ ('-' = 𝕩) }
   Build ← { w F 1: { w ≤ 0 ? -w; w }; w F 0: { 0 < w ? ¯1-w; w } }
   •BQN¨ 𝕩 ⊔˜ 1- ˜0⊸<⊸× ¯1 Build` IsNum¨ 𝕩
