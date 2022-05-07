@@ -88,3 +88,21 @@ GetNums ← {
 }
 GetNums "x=30, y=-5, z=55"
 ```
+
+## day 10
+
+
+```mermaid
+flowchart TD
+B2 -- 2 --> B1;
+B1 -- 2 --> OUTPUT1=2;
+B1 -- 3 --> B0;
+B0 -- 3 --> OUTPUT2=3;
+B0 -- 5 --> OUTPUT0=5;
+```
+
+| value | trace      |
+|-------|------------|
+| 2     | B2, |
+| 3     | B2, B0 |
+| 5     | B2, B0 |
