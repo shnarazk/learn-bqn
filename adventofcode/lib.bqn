@@ -6,7 +6,7 @@ DoWhile ← {𝕏@ ⋄ While 𝕨‿𝕩}´
 For     ← {I‿C‿P‿A: I@ ⋄ While⟨C,P∘A⟩}
 Match   ← {𝕏𝕨}´
 Select  ← {(⊑𝕩)◶(1↓𝕩)@}
-Switch ← {c←⊑𝕩 ⋄ a‿m←<˘⍉∘‿2⥊1↓𝕩 ⋄ (⊑a⊸⊐<c)◶m@}
+Switch ← {c←⊑𝕩 ⋄ m‿a←<˘⍉∘‿2⥊1↓𝕩 ⋄ (m⊸⊐⌾<C)◶a@}
 Test    ← {fn←{C‿A𝕊e:C◶A‿E}´𝕩⋄Fn@}
 
 StartsWith ← { (≠𝕨) < (≠𝕩) ? 0 ; 0 = (<˘(≠𝕩)↕𝕨) ⊑∘⊐⟜< 𝕩 }
