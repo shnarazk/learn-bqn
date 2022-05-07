@@ -1,3 +1,5 @@
+https://adventofcode.com/
+
 # I need a library
 
 - [x] namespace https://mlochbaum.github.io/BQN/doc/namespace.html
