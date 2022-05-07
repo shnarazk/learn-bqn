@@ -4,19 +4,19 @@ Decode ← {
     x ← 𝕩
     l ← Tokenize 𝕩
     Switch ⟨⊑l
-        "value" ⋄  { 𝕤⋄ 'v'‿(Tokenize x)}
-        "bot"   ⋄  { 𝕤⋄ 'b'‿(Tokenize x)}
+        "value" ⋄  { 𝕤⋄ 'v'‿(1↓l)}
+        "bot"   ⋄  { 𝕤⋄ 'b'‿(1↓l)}
     ⟩
 }
 # Part 1: #####################################
 network ← ¯∞‿¯∞˙¨ ↕220
 Link ← {
     ⟨'b', l⟩ F n: {
-        min ← •BQN 6⊑l
-        max ← •BQN 11⊑l
-        { ( 5⊑l) StartsWith "out" ? min ↩ ¯1×1+min;@ }
-        { (10⊑l) StartsWith "out" ? max ↩ ¯1×1+max;@ }
-        min‿max⌾((•BQN 1⊑l)⊸⊑) n
+        min ← •BQN 5⊑l
+        max ← •BQN 10⊑l
+        { (4⊑l) StartsWith "out" ? min ↩ ¯1×1+min;@ }
+        { (9⊑l) StartsWith "out" ? max ↩ ¯1×1+max;@ }
+        min‿max⌾((•BQN ⊑l)⊸⊑) n
     };
     i F x: x
 }
