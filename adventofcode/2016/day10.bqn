@@ -38,6 +38,12 @@ Unpropagated ← { pn F idx:
     (0⊑record = 0) ∧ (1⊑record ≠ ¯∞) ∧ (2⊑record ≠ ¯∞)
 }
 Propagate ← {
+    len ← ≠petri
+    unp ← (petri⊸Unpropagated)¨ ↕len
+    target ← unp ⊒ <1
+    {
+        target < len ? @: @
+    }
     𝕩
 }
 
