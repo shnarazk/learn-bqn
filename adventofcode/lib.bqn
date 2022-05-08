@@ -1,4 +1,10 @@
-⟨If, IfElse, While, DoWhile, For, Match, Select, Switch, Test, StartsWith, ParseInts, version, Tokenize⟩ ⇐
+⟨
+  If, IfElse, While, DoWhile, For,
+  Match, Select, Switch, Test,
+  Tokenize, StartsWith, ParseInts,
+  Min, Max,
+  version
+⟩ ⇐
 If      ← {𝕏⍟𝕎@}´                 # Also Repeat
 IfElse  ← {c‿T‿F: c◶F‿T@}
 While   ← {𝕩{𝔽⍟𝔾∘𝔽_𝕣_𝔾∘𝔽⍟𝔾𝕩}𝕨@}´  # While 1‿{... to run forever
@@ -19,4 +25,7 @@ Tokenize ← {
   Ordinal ← { w F 1: { w ≤ 0 ? -w; w }; w F 0: { 0 < w ? ¯1-w; w } }
   𝕩 ⊔˜ ¯1+×⟜(0⊸≤¨) ¯1 Ordinal` ' '≠¨ 𝕩
 }
+
+Min ← { 𝕨 < 𝕩 ? 𝕨; 𝕩 }
+Max ← { 𝕨 < 𝕩 ? 𝕩; 𝕨 }
 version ← "0.1.0"
