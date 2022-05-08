@@ -19,7 +19,6 @@ Error: `: rank of 𝕨 must be cell rank of 𝕩
 
 ではどうすればいいのかというと、配列にするのであった。
 
-
 ```apl
     b ← ∘‿1 ⥊ c
 ┌─           
@@ -32,3 +31,5 @@ Error: `: rank of 𝕨 must be cell rank of 𝕩
 ```
 
 リストのリストがうまくいかないのは、きっと2次元配列はリストのリストではないというのと同じことから来ているのだろう。
+
+https://github.com/mlochbaum/BQN/blob/31b722e16e6a0f6b0f08e8409b2c7e240937bfed/doc/scan.md#higher-ranks
