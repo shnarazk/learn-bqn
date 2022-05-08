@@ -17,30 +17,42 @@ Link ← {
     };
     i F x: x
 }
-SetToken ← {
-    ⟨'v', l⟩ F pn: {
-        ⟨val, idx⟩ ← ⟨•BQN 0⊑l, •BQN 4⊑l⟩
-        fst ← 1⊑idx⊑pn
-        {
-            fst ≠ ¯∞ ? val˙⌾(1⊸⊑idx⊸⊑) pn;
+DecodeSetToken ← {
+    ⟨'v', l⟩ F pn: ⟨•BQN 0⊑l, •BQN 4⊑l⟩ SetToken pn;
+    i F x: x
+}
+SetToken ← { ⟨val, idx⟩ F pn:
+    fst ← 1⊑idx⊑pn
+    {
+        fst = ¯∞ ?
+            val˙⌾(1⊸⊑idx⊸⊑) pn
+        ;
+            # •Show "Ready "‿idx
             ⟨mi, ma⟩ ← ⟨fst Min val, fst Max val⟩
             (1‿mi‿ma)˙⌾(idx⊸⊑) pn
-        }
-    };
-    i F x: x
+    }
 }
 Unpropagated ← { pn F idx:
     record ← idx⊑pn
-    (0⊑record = 0) ∧ (1⊑record ≠ ¯∞) ∧ (2⊑record ≠ ¯∞)
+    (0⊑record = 1) # ∧ (1⊑record ≠ ¯∞) ∧ (2⊑record ≠ ¯∞)
 }
-Propagate ← {
-    len ← ≠petri
-    unp ← (petri⊸Unpropagated)¨ ↕len
-    target ← unp ⊒ <1
+# trace ← ⟨⟩˙¨↕200
+Propagate ← { F pn:
+    len ← ≠pn
+    unp ← (pn⊸Unpropagated)¨ ↕len
+    target ← ⊑unp ⊒ <1
     {
-        target < len ? @; @
+        (target < len) ?
+            # •Show "Fire "‿target
+            ⟨lo, hi⟩ ← target⊑network
+            ⟨mi, ma⟩ ← 1↓target⊑pn
+            pn ↩ 0˙⌾(⊑target⊸⊑) pn
+            { lo < 0 ? @; pn ↩ ⟨mi, lo⟩ SetToken pn }
+            { hi < 0 ? @; pn ↩ ⟨ma, hi⟩ SetToken pn }
+            Propagate pn
+        ;
+            pn
     }
-    𝕩
 }
 
 example ← ⟨
@@ -56,9 +68,13 @@ data ← ⥊ •FLines "../data/2016/input-day10.txt"
 •Show ≍⟜(Decode¨) 2↑ data
 insts ← ⌽ Decode¨ data
 network ← (¯∞‿¯∞˙¨ ↕220) Link´ insts
-petri ← (0‿¯∞‿¯∞˙¨ ↕220) SetToken´ insts
+petri ← (0‿¯∞‿¯∞˙¨ ↕220) DecodeSetToken´ insts
 •Show network
 •Show petri
-# •Show +´'#'=¨ ⥊ Eval´⌽ Decode¨ data
-
+petri ↩ Propagate petri
+•Show petri
+•Show petri ⊐ ⟨0‿17‿61⟩
+# petri2 ← ⟨0, 0, 0⟩ {⟨1+⊑𝕨, "1⊑𝕩", 2⊑𝕨⟩}` petri
+petri ↩ {⟨1+⊑𝕨, 1⊑𝕩, 2⊑𝕩⟩}` petri
+•Show petri
 # Part 2: #####################################
