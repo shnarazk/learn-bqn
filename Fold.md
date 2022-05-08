@@ -34,7 +34,8 @@ Error: `: rank of 𝕨 must be cell rank of 𝕩
 
 https://github.com/mlochbaum/BQN/blob/31b722e16e6a0f6b0f08e8409b2c7e240937bfed/doc/scan.md#higher-ranks
 
-しかし、初期値がなければリストのリストで動くのだから説得力ないなあ。
+しかし、初期値がなければリストのリストで動くのだからこの説明は説得力ないなあ。
+しばらく温めてまたissue立てようかな。
 
 ```apl
     {⟨1+⊑𝕨, 1⊑𝕩⟩}` c
