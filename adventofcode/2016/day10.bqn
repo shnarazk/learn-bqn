@@ -1,7 +1,6 @@
 #!/usr/bin/env bqn
 ⟨Min, Max, StartsWith, Switch, Tokenize⟩ ← •Import "../lib.bqn"
 Decode ← {
-    x ← 𝕩
     l ← Tokenize 𝕩
     Switch ⟨⊑l
         "value" ⋄  { 𝕤⋄ 'v'‿(1↓l)}
@@ -11,8 +10,7 @@ Decode ← {
 # Part 1: #####################################
 Link ← {
     ⟨'b', l⟩ F n: {
-        min ← •BQN 5⊑l
-        max ← •BQN 10⊑l
+        ⟨min, max⟩ ← ⟨•BQN 5⊑l, •BQN 10⊑l⟩
         { (4⊑l) StartsWith "out" ? min ↩ ¯1×1+min;@ }
         { (9⊑l) StartsWith "out" ? max ↩ ¯1×1+max;@ }
         min‿max⌾((•BQN ⊑l)⊸⊑) n
@@ -21,13 +19,11 @@ Link ← {
 }
 SetToken ← {
     ⟨'v', l⟩ F pn: {
-        val ← •BQN 0⊑l
-        idx ← •BQN 4⊑l
+        ⟨val, idx⟩ ← ⟨•BQN 0⊑l, •BQN 4⊑l⟩
         fst ← 1⊑idx⊑pn
         {
             fst ≠ ¯∞ ? val˙⌾(1⊸⊑idx⊸⊑) pn;
-            mi ← fst Min val
-            ma ← fst Max val
+            ⟨mi, ma⟩ ← ⟨fst Min val, fst Max val⟩
             (1‿mi‿ma)˙⌾(idx⊸⊑) pn
         }
     };
@@ -42,7 +38,7 @@ Propagate ← {
     unp ← (petri⊸Unpropagated)¨ ↕len
     target ← unp ⊒ <1
     {
-        target < len ? @: @
+        target < len ? @; @
     }
     𝕩
 }
