@@ -36,7 +36,6 @@ Unpropagated ← { pn F idx:
     record ← idx⊑pn
     (0⊑record = 1) # ∧ (1⊑record ≠ ¯∞) ∧ (2⊑record ≠ ¯∞)
 }
-# trace ← ⟨⟩˙¨↕200
 Propagate ← { F pn:
     len ← ≠pn
     unp ← (pn⊸Unpropagated)¨ ↕len
@@ -78,3 +77,39 @@ petri ↩ Propagate petri
 petri ↩ {⟨1+⊑𝕨, 1⊑𝕩, 2⊑𝕩⟩}` petri
 •Show petri
 # Part 2: #####################################
+total ← 1
+Propagate2 ← { F pn:
+    len ← ≠pn
+    unp ← (pn⊸Unpropagated)¨ ↕len
+    target ← ⊑unp ⊒ <1
+    {
+        (target < len) ?
+            # •Show "Fire "‿target
+            ⟨lo, hi⟩ ← target⊑network
+            ⟨mi, ma⟩ ← 1↓target⊑pn
+            pn ↩ 0˙⌾(⊑target⊸⊑) pn
+            {
+                0 ≤ lo ?
+                    pn ↩ ⟨mi, lo⟩ SetToken pn;
+                ¯3 ≤ lo ?
+                    total×↩mi
+                    pn
+                ;
+                    pn
+            }
+            {
+                0 ≤ hi ?
+                    pn ↩ ⟨ma, hi⟩ SetToken pn;
+                ¯3 ≤ hi ?
+                    total×↩ma
+                    pn
+                ;
+                    pn
+            }
+            Propagate2 pn
+        ;
+            pn
+    }
+}
+petri2 ← Propagate2 (0‿¯∞‿¯∞˙¨ ↕220) DecodeSetToken´ insts
+•Show total
