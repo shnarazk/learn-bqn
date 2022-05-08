@@ -34,10 +34,13 @@ Error: `: rank of 𝕨 must be cell rank of 𝕩
 
 https://github.com/mlochbaum/BQN/blob/31b722e16e6a0f6b0f08e8409b2c7e240937bfed/doc/scan.md#higher-ranks
 
-しかし、初期値がなければリストのリストで動くのだからこの説明は説得力ないなあ。
-しばらく温めてまたissue立てようかな。
+しかし、初期値がなければリストのリストで動くのだからこの説明は説得力ない。
 
 ```apl
     {⟨1+⊑𝕨, 1⊑𝕩⟩}` c
 ⟨ ⟨ 1 10 ⟩ ⟨ 2 20 ⟩ ⟨ 3 30 ⟩ ⟩
+    1↓{⟨1+⊑𝕨, 1⊑𝕩⟩}` ⟨ini⟩ ∾ c
+⟨ ⟨ 1 10 ⟩ ⟨ 2 20 ⟩ ⟨ 3 30 ⟩ ⟩
 ```
+
+issue立てねば。
