@@ -38,8 +38,7 @@ Unpropagated ← { pn F idx:
 }
 Propagate ← { F pn:
     len ← ≠pn
-    unp ← (pn⊸Unpropagated)¨ ↕len
-    target ← ⊑unp ⊒ <1
+    target ← ⊑ (<1)⊒˜(pn⊸Unpropagated)¨ ↕len
     {
         (target < len) ?
             # •Show "Fire "‿target
@@ -48,7 +47,7 @@ Propagate ← { F pn:
             pn ↩ 0˙⌾(⊑target⊸⊑) pn
             { lo < 0 ? @; pn ↩ ⟨mi, lo⟩ SetToken pn }
             { hi < 0 ? @; pn ↩ ⟨ma, hi⟩ SetToken pn }
-            Propagate pn
+            F pn
         ;
             pn
     }
@@ -80,8 +79,7 @@ petri ↩ {⟨1+⊑𝕨, 1⊑𝕩, 2⊑𝕩⟩}` petri
 total ← 1
 Propagate2 ← { F pn:
     len ← ≠pn
-    unp ← (pn⊸Unpropagated)¨ ↕len
-    target ← ⊑unp ⊒ <1
+    target ← ⊑ (<1)⊒˜(pn⊸Unpropagated)¨ ↕len
     {
         (target < len) ?
             # •Show "Fire "‿target
@@ -89,24 +87,16 @@ Propagate2 ← { F pn:
             ⟨mi, ma⟩ ← 1↓target⊑pn
             pn ↩ 0˙⌾(⊑target⊸⊑) pn
             {
-                0 ≤ lo ?
-                    pn ↩ ⟨mi, lo⟩ SetToken pn;
-                ¯3 ≤ lo ?
-                    total×↩mi
-                    pn
-                ;
-                    pn
+                0  ≤ lo ? pn ↩ ⟨mi, lo⟩ SetToken pn;
+                ¯3 ≤ lo ? total×↩mi;
+                @
             }
             {
-                0 ≤ hi ?
-                    pn ↩ ⟨ma, hi⟩ SetToken pn;
-                ¯3 ≤ hi ?
-                    total×↩ma
-                    pn
-                ;
-                    pn
+                0  ≤ hi ? pn ↩ ⟨ma, hi⟩ SetToken pn;
+                ¯3 ≤ hi ? total×↩ma;
+                @
             }
-            Propagate2 pn
+            F pn
         ;
             pn
     }
