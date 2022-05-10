@@ -30,7 +30,7 @@ PickMost ← {
 •Show "Part 1"
 •Show PickMost example_keys
 
-lines ← ⥊ •FLines "../data/2016/input-day06.txt"
+lines ← ⥊ •FLines "../../data/2016/input-day06.txt"
 # •Show 10 ↑ lines
 keys ← ⍉ ∘‿8 ⥊ ∾´ lines
 # •Show keys
