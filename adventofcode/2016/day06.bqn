@@ -40,8 +40,7 @@ keys ← ⍉ ∘‿8 ⥊ ∾´ lines
 PickLeast ← {
     bigN ← +´⥊≠⌜ 𝕩
     letters ← (<)˘ 𝕩
-    •Show "letters"
-    •Show letters
+    •Show "letters"‿letters
     occurs ← (1+ ⊒)¨ letters
     •Show "numbers of occurs"
     •Show ⍉ occurs
@@ -49,14 +48,11 @@ PickLeast ← {
     •Show "targets"
     •Show targets
     ot ← occurs × targets
-#    •Show "ot = occurs × targets"
-#    •Show ot
+   •Show "ot = occurs × targets"‿ot
     scores ← ot + bigN × 1 - targets
-#    •Show "scores"
-#    •Show scores
+   # •Show "scores"‿scores
     leasts ← ⌊´¨ scores
-    •Show "leasts"
-    •Show leasts
+    •Show "leasts"‿leasts
     indices ← >{(𝕩⊑scores) ⊐ (𝕩⊑leasts) }¨ ↕≠ leasts
     >{(𝕩⊑indices) ⊑ (𝕩⊑letters) }¨ ↕≠ leasts
 }
