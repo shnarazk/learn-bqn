@@ -16,11 +16,11 @@ CheckTLS ← {
     (0 < ⌈´CheckChunk¨ 0⊑𝕩) ∧ (0 = ⌈´CheckChunk¨ 1⊑𝕩)
 }
 example ← ⟨ "abba[mnop]qrst", "abcd[bddb]xyyx", "aaaa[qwer]tyui", "ioxxoj[asdfgh]zxcvbn" ⟩
-a_example ← 5↑ ⥊ •FLines "../data/2016/input-day07.txt"
+a_example ← 5↑ ⥊ •FLines "../../data/2016/input-day07.txt"
 •Show example
 •Show ⥊>Split¨ example
 •Show (CheckTLS∘Split)¨ example
-•Show +´(CheckTLS∘Split)¨ ⥊ •FLines "../data/2016/input-day07.txt"
+•Show +´(CheckTLS∘Split)¨ ⥊ •FLines "../../data/2016/input-day07.txt"
 
 # Part 2: SSL #####################################
 CheckSSL ← {
@@ -30,8 +30,8 @@ CheckSSL ← {
     0⌈´⥊(∾´Pickup¨ 0⊑𝕩) CrossCheck⌜ (∾´Pickup¨ 1⊑𝕩)
 }
 example2 ← ⟨ "aba[bab]xyz", "xyx[xyx]xyx", "aaa[kek]eke", "zazbz[bzb]cdb" ⟩
-# example2 ← 5↑ ⥊ •FLines "../data/2016/input-day07.txt"
+# example2 ← 5↑ ⥊ •FLines "../../data/2016/input-day07.txt"
 •Show example2
 •Show >Split¨ example2
 •Show (CheckSSL∘Split)¨ example2
-•Show +´(CheckSSL∘Split)¨ ⥊ •FLines "../data/2016/input-day07.txt"
+•Show +´(CheckSSL∘Split)¨ ⥊ •FLines "../../data/2016/input-day07.txt"
