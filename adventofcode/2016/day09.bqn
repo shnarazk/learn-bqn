@@ -5,23 +5,31 @@ Decode ← {
     lpi‿rpi ← x ⊐ '('‿')'
     {
         lpi = rpi ? ⟨rpi, ""⟩;
-        ⟨0, (1+rpi)↓x⟩
+        ⟨n, m⟩ ← ParseInts lpi↓rpi↑x
+        post ← ⊑Decode (1+n+rpi)↓x
+        ⟨post+lpi+n×m, (1+n+rpi)↓x⟩
     }
 }
-# Part 1: #####################################
-# Eval ← { }
 example ← ⟨
-    "ADVENT"
-    "A(1x5)BC"
-    "(3x3)XYZ"
-    "A(2x2)BCD(2x2)EFG"
-    "(6x1)(1x3)A"
-    "X(8x2)(3x3)ABCY"
+    0‿""
+    6‿"ADVENT"
+    7‿"A(1x5)BC"
+    9‿"(3x3)XYZ"
+    11‿"A(2x2)BCD(2x2)EFG"
+    6‿"(6x1)(1x3)A"
+    18‿"X(8x2)(3x3)ABCY"
 ⟩
-# example ← ⥊ •FLines "../../data/2016/input-day09.txt"
-•Show ≍⟜(Decode¨) example
-# •Show screen Eval´⌽ Decode¨ example
-# •Show +´'#'=¨ ⥊ screen Eval´⌽ Decode¨ example
-# •Show +´'#'=¨ ⥊ screen Eval´⌽ Decode¨ ⥊ •FLines "../../data/2016/input-day09.txt"
-
+•Show ≍⟜((Decode(1⊸⊑))¨) example
+# Part 1: #####################################
+Decode1 ← {
+    x ← 𝕩
+    lpi‿rpi ← x ⊐ '('‿')'
+    {
+        lpi = rpi ? rpi;
+        ⟨n, m⟩ ← ParseInts lpi↓rpi↑x
+        post ← ⊑Decode (1+n+rpi)↓x
+        post+lpi+n×m
+    }
+}
+•Show +´ Decode1¨ ⥊ •FLines "../../data/2016/input-day09.txt"
 # Part 2: #####################################
