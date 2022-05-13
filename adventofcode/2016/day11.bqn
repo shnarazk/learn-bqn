@@ -5,12 +5,13 @@ Decode ← { F x: 0 }
 # The second floor contains a hydrogen generator.
 # The third floor contains a lithium generator.
 # The fourth floor contains nothing relevant.
-•Show (<"example")∾< example ← 4‿5⥊∾´ ⟨
+•Show (<"naive coding")∾< 4‿5⥊∾´ ⟨
     0‿0‿0‿0‿0
     0‿0‿0‿1‿0
     0‿1‿0‿0‿0
     1‿0‿1‿0‿1
 ⟩
+•Show "cost‿flag‿status for Dijkstra"‿ 0‿1‿0‿1‿0‿2‿0
 # •Show ≍⟜((Decode(1⊸⊑))¨) example
 # Part 1: #####################################
 # •Show +´ Decode1¨ ⥊ •FLines "../../data/2016/input-day11.txt"
