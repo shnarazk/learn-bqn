@@ -1,4 +1,4 @@
-#!/usr/bin/env bqn
+#!/usr/bin/env cbqn
 
 StartsWith ← { (≠𝕨) < (≠𝕩) ? 0 ; 0 = (<˘(≠𝕩)↕𝕨) ⊑∘⊐⟜< 𝕩 }
 Encode ← {

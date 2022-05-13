@@ -1,4 +1,4 @@
-#!/usr/bin/env bqn
+#!/usr/bin/env cbqn
 # input ← ⟨199, 200, 208, 210, 200, 207, 240, 269, 260, 263⟩
 lines ← •FLines "data/2021/input-day01.txt"
 input ← •BQN¨ lines

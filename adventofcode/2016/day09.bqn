@@ -1,4 +1,4 @@
-#!/usr/bin/env bqn
+#!/usr/bin/env cbqn
 ⟨For, ParseInts, StartsWith⟩ ← •Import "../lib.bqn"
 Decode ← { F x:
     lpi‿rpi ← x ⊐ '('‿')'
