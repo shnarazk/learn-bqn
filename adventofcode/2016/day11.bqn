@@ -1,16 +1,20 @@
 #!/usr/bin/env cbqn
 # ⟨ToIndex, num_elements, example_start, state⟩ ⇐
 ⟨For, ParseInts, StartsWith⟩ ← •Import "../lib.bqn"
+numKind ← 2
+state ← ∘‿2 ⥊ ↕4⋆(2×numKind)
+start ← 0
 ToIndex ← (+⟜(4⊸×))´⌽
 ToState ← {
-    (¯1×numElements)↑ {
+    (¯2×numKind)↑ {
         F 0: ⟨0⟩;
         F n: {(F (n-𝕩)÷4)∾𝕩} 4|n
     } 𝕩
 }
 AtFloor ← { floor F state: (¯1+floor)⊸=¨ state }
-# TODO
-NextState ← { now F movings: 0 }
+NextState ← { now F movings: 0 }        # TODO
+Connected ← { floor F kind: 0 }         # TODO
+IsSafe    ← { floor F kind: 0 }         # TODO
 # Part 1 Description: #####################################
 # - 0: a hydrogen M, a lithium M.
 # - 1: a hydrogen G.
@@ -24,11 +28,12 @@ NextState ← { now F movings: 0 }
 #     1‿0‿1‿0‿1
 # cost‿flag‿status for Dijkstra: 0‿1‿0‿1‿0‿2‿0
 # For Dijkstra: flag‿cost[0×256+1×64+0×16+2×4+0×1=72] = 1‿0
-num_elements ← 5
-state ← ∘‿2 ⥊ ↕4⋆num_elements
-start ← ToIndex ⟨0, 1, 0, 2, 0⟩
+# Without elevator: flag‿cost[1×64+0×16+2×4+0×1=72] = 1‿0
+numKind ↩ 2
+state ↩ ∘‿2 ⥊ ↕4⋆(2×numKind)
+start ↩ ToIndex ⟨1, 0, 2, 0⟩
 •Show { (ToState 𝕩)‿𝕩‿(ToIndex ToState 𝕩) } start
-"Fail to build the 1-arrow" ! (ToState∘ToIndex)⊸(∧´=) ⟨0, 1, 0, 2, 0⟩
+"Fail to build the 1-arrow" ! (ToState∘ToIndex)⊸(∧´=) ⟨1, 0, 2, 0⟩
 •Show (3⊸AtFloor)⊸≍ ToState 600
 # Part 1: #####################################
 # - 0: a strontium G, a strontium M, a plutonium G, a plutonium M.
@@ -36,7 +41,7 @@ start ← ToIndex ⟨0, 1, 0, 2, 0⟩
 # - 2: a thulium M.
 # - 3: nothing relevant.
 # Encode: strontium, plutonium, thulium, ruthenium, curium
-num_elements ↩ 11
-state ↩ ∘‿2 ⥊ ↕4⋆num_elements
+numKind ↩ 5
+state ↩ ∘‿2 ⥊ ↕4⋆(2×numKind)
 start ↩ ToIndex ⟨0, 0, 0, 0, 1, 2, 1, 1, 1, 1⟩
 # Part 2: #####################################
