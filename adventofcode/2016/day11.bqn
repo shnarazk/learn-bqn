@@ -16,12 +16,14 @@ ToState ← {
 
 # Return 1 if 𝕩 is safe for all microtips
 IsSafe ← { 
-         F state: ⌊´ state⊸F˜¨ ↕numKinds;
-    kind F state:
-        generator ← 1+2×kind
-        microchip ← 2+2×kind
-        # (generator⊑state = microchip⊑state) ∨ (∧´ 0⊸=¨ 1+2×↕numKinds)
-        1
+      F state:
+        ⌊´ (state⊸(F˜))¨ ↕numKinds;
+    k F state:
+        generator ← (1+2×k)⊑state
+        microchip ← (2+2×k)⊑state
+        ret ← ((generator⊑state) = (microchip⊑state)) ∨ (∧´ {microchip≠𝕩⊑state}¨ 1+2×↕numKinds)
+        •Show k∾(<"IsSafe")∾state‿ret
+        ret
 }
 
 # Returns the set of objects which you can move with elevator from the current floor.
@@ -47,8 +49,7 @@ NextStates ← { F state:
     nextFloors ← elevator⊸≠¨⊸/ ↕4
     # •Show ⥊ nextFloors {𝕨∾ 𝕨×𝕩}⌜ w
     cands ← ⥊ nextFloors {𝕨∾ ((¬𝕩)×objects) + 𝕨×𝕩}⌜ w
-    # TODO: filter un-safe states
-    cands
+    IsSafe¨⊸/ cands
 }
 # Part 1 Description: #####################################
 # - 0: a hydrogen M, a lithium M.
@@ -67,6 +68,7 @@ numKinds ↩ 2
 states ↩ ∘‿2 ⥊ ↕4⋆(1+2×numKinds)
 state ← ⟨0, 1, 0, 2, 0⟩
 •Show (<"IsSafe")∾IsSafe state
+•Show (<"IsSafe ⟨1, 1, 0, 2, 1⟩")∾IsSafe ⟨1, 1, 0, 2, 1⟩
 start ↩ ToIndex state
 •Show { (ToState 𝕩)‿𝕩‿(ToIndex ToState 𝕩) } start
 "Fail to build the 1-arrow" ! (ToState∘ToIndex)⊸(∧´=) state
