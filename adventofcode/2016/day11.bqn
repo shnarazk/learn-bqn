@@ -1,9 +1,8 @@
 #!/usr/bin/env cbqn
 # ⟨ToIndex, num_elements, example_start, state⟩ ⇐
-⟨For, ParseInts, StartsWith⟩ ← •Import "../lib.bqn"
+⟨For, ParseInts⟩ ← •Import "../lib.bqn"
 numKind ← 2
 numStates ← 4⋆1+2×numKind
-# MakeState ← (∘‿2)⊸⥊↕4⊸⋆1⊸+2⊸×
 MakeState ← ↕4⊸⋆1⊸+2⊸×
 state ← MakeState numKind
 start ← 0
@@ -15,8 +14,8 @@ ToState ← {
     } 𝕩
 }
 AtFloor ← { floor F state: (¯1+floor)⊸=¨ state }
-# returns the set of objects which you can move with elevator in the current state.
-# TODO: returns the SAFE object sets
+
+# returns the set of objects which you can move with elevator from the current floor.
 NextObjectsStates ← { F state:
     Mask ← {
         (¯2×numKind)↑ {
@@ -31,9 +30,20 @@ NextObjectsStates ← { F state:
     # •Show ⍷(⌈´objects×Mask)¨ ↕2⋆2×numKind
     ({⌈´𝕩 ∧ objects=𝕩}¨)⊸/⍷(objects×Mask)¨ ↕2⋆2×numKind
 }
+
+# returns the set of valid and safe states transited from the current state.
+NextStates ← { F state:
+    elevator ← ⊑state
+    objects ← 1↓state
+    w ← NextObjectsStates state
+    nextFloors ← elevator⊸≠¨⊸/ ↕4
+    •Show ⥊ nextFloors {𝕨∾ 𝕨×𝕩}⌜ w
+    ⥊ nextFloors {𝕨∾ ((¬𝕩)×objects) + 𝕨×𝕩}⌜ w
+}
 Connected  ← { kind F state: 0 }         # TODO
 IsSafe     ← { kind F state: 0 }         # TODO
 IsNextState ← { current F next: 0 }      # TODO
+
 # Part 1 Description: #####################################
 # - 0: a hydrogen M, a lithium M.
 # - 1: a hydrogen G.
@@ -52,8 +62,7 @@ state ↩ ∘‿2 ⥊ ↕4⋆(1+2×numKind)
 start ↩ ToIndex ⟨0, 1, 0, 2, 0⟩
 •Show { (ToState 𝕩)‿𝕩‿(ToIndex ToState 𝕩) } start
 "Fail to build the 1-arrow" ! (ToState∘ToIndex)⊸(∧´=) ⟨0, 1, 0, 2, 0⟩
-•Show (3⊸AtFloor)⊸≍ ToState 600
-•Show NextObjectsStates ToState start
+•Show NextStates ToState start
 # Part 1: #####################################
 # - 0: a strontium G, a strontium M, a plutonium G, a plutonium M.
 # - 1: a thulium G, a ruthenium G, a ruthenium M, a curium G, a curium M.
