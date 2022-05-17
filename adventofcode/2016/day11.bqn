@@ -3,8 +3,10 @@
 ⟨For, ParseInts⟩ ← •Import "../lib.bqn"
 numKinds ← 2
 numStates ← 4⋆1+2×numKinds
-MakeState ← ↕4⊸⋆1⊸+2⊸×
+MakeState ← (1‿0)˙¨∘↕4⊸⋆1⊸+2⊸×
 states ← MakeState numKinds
+•Show states
+•Show "states"
 start ← 0
 ToIndex ← (+⟜(4⊸×))´⌽
 ToState ← {
@@ -16,16 +18,14 @@ ToState ← {
 
 # Return 1 if 𝕩 is safe for all microtips
 IsSafe ← { 
-      F state:
-        ⌊´ (state⊸(F˜))¨ ↕numKinds;
-    k F state:
-        generator ← (1+2×k)⊑state
-        microchip ← (2+2×k)⊑state
-        ret ← ((generator⊑state) = (microchip⊑state)) ∨ (∧´ {microchip≠𝕩⊑state}¨ 1+2×↕numKinds)
-        •Show k∾(<"IsSafe")∾state‿ret
-        ret
+         F state: ⌊´ state⊸F˜¨ ↕numKinds;
+    kind F state:
+        generator ← 1+2×kind
+        microchip ← 2+2×kind
+        # (generator⊑state = microchip⊑state) ∨ (∧´ 0⊸=¨ 1+2×↕numKinds)
+        1
 }
-
+IsGoal ← { F state: ∧´ {3=𝕩⊑state}¨ 1+2×↕numKinds }
 # Returns the set of objects which you can move with elevator from the current floor.
 NextObjectsStates ← { F state:
     Mask ← {
@@ -35,7 +35,6 @@ NextObjectsStates ← { F state:
         } 𝕩
     }
     objects ← {(⊑𝕩)⊸=¨ 1↓𝕩} state
-    # •Show objects
     # •Show (objects×Mask)¨ ↕2⋆2×numKinds
     # •Show ⍷(⌈´objects×Mask)¨ ↕2⋆2×numKinds
     ({⌈´𝕩 ∧ objects=𝕩}¨)⊸/⍷(objects×Mask)¨ ↕2⋆2×numKinds
@@ -49,7 +48,26 @@ NextStates ← { F state:
     nextFloors ← elevator⊸≠¨⊸/ ↕4
     # •Show ⥊ nextFloors {𝕨∾ 𝕨×𝕩}⌜ w
     cands ← ⥊ nextFloors {𝕨∾ ((¬𝕩)×objects) + 𝕨×𝕩}⌜ w
-    IsSafe¨⊸/ cands
+    IsSafe⊸/ cands
+}
+
+# Loop until reaching the goal
+Seek ← { F init:
+    ii ← ToIndex init
+    {
+        IsGoal init ? ⊑ii⊑states;
+        cost ← ⊑init
+        nexts ← NextStates init
+        (1‿cost)˙⌾(ii⊸⊑) states
+        cost+↩ 1
+        {
+            state ← 𝕩
+            i ← ToIndex state
+            cost < ⊑i⊑states ? (0‿cost)˙⌾(i⊸⊑) states; @
+        }¨ nexts
+        # seek the next target with the minimum cost
+        init
+    }
 }
 # Part 1 Description: #####################################
 # - 0: a hydrogen M, a lithium M.
@@ -68,7 +86,6 @@ numKinds ↩ 2
 states ↩ ∘‿2 ⥊ ↕4⋆(1+2×numKinds)
 state ← ⟨0, 1, 0, 2, 0⟩
 •Show (<"IsSafe")∾IsSafe state
-•Show (<"IsSafe ⟨1, 1, 0, 2, 1⟩")∾IsSafe ⟨1, 1, 0, 2, 1⟩
 start ↩ ToIndex state
 •Show { (ToState 𝕩)‿𝕩‿(ToIndex ToState 𝕩) } start
 "Fail to build the 1-arrow" ! (ToState∘ToIndex)⊸(∧´=) state
