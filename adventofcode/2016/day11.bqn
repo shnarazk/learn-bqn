@@ -15,7 +15,9 @@ ToState ← {
     } 𝕩
 }
 AtFloor ← { floor F state: (¯1+floor)⊸=¨ state }
-NextStates ← { F state:
+# returns the set of objects which you can move with elevator in the current state.
+# TODO: returns the SAFE object sets
+NextObjectsStates ← { F state:
     Mask ← {
         (¯2×numKind)↑ {
             F 0: ⟨0⟩;
@@ -51,7 +53,7 @@ start ↩ ToIndex ⟨0, 1, 0, 2, 0⟩
 •Show { (ToState 𝕩)‿𝕩‿(ToIndex ToState 𝕩) } start
 "Fail to build the 1-arrow" ! (ToState∘ToIndex)⊸(∧´=) ⟨0, 1, 0, 2, 0⟩
 •Show (3⊸AtFloor)⊸≍ ToState 600
-•Show NextStates ToState start
+•Show NextObjectsStates ToState start
 # Part 1: #####################################
 # - 0: a strontium G, a strontium M, a plutonium G, a plutonium M.
 # - 1: a thulium G, a ruthenium G, a ruthenium M, a curium G, a curium M.
