@@ -1,8 +1,11 @@
 #!/usr/bin/env cbqn
 # ⟨ToIndex, num_elements, example_start, state⟩ ⇐
-⟨For, ParseInts⟩ ← •Import "../lib.bqn"
+⟨For⟩ ← •Import "../lib.bqn"
 numKinds ← 2
 numStates ← 4⋆1+2×numKinds
+# Element layout:
+# - expanded (0/1)
+# - cost (0<)
 MakeState ← (1‿0)˙¨∘↕4⊸⋆1⊸+2⊸×
 states ← MakeState numKinds
 •Show states
