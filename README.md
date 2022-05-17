@@ -2,6 +2,8 @@
 
 - https://github.com/mlochbaum/BQN
 - https://bqnpad.mechanize.systems
+- APL
+  - [The Array Cast](https://www.arraycast.com/) on [Apple podacst](https://podcasts.apple.com/jp/podcast/the-array-cast/id1568833451)
 
 ### pi
 
