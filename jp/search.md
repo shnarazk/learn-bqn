@@ -1,6 +1,6 @@
 # Search something
 
-# あるフィールドが最大(最小)のindexを探す
+## あるフィールドが最大(最小)のindexを探す
 
 とりあえず計算コストは考えないことにする。
 
@@ -13,3 +13,8 @@ findRecordWithMaxField ← { keyIndex F list:
   m ← ⌈˝ (keyIndex⊸⊑)¨ list
   m⊑list
 }
+```
+
+```apl
+findRecordWithMaxField ← {keyIndex F 𝕩: {⊢⊑˜⌈˝(keyIndex⊸⊑)¨} 𝕩}
+```
