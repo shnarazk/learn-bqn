@@ -1,6 +1,6 @@
 # Search something
 
-## あるフィールドが最大(最小)のindexを探す
+## あるフィールドが最大(最小)のindexを探すMaxAt
 
 とりあえず計算コストは考えないことにする。
 
@@ -9,17 +9,20 @@
 1. 最大値のindexを`⊏`で探す
 
 ```apl
-findRecordWithMaxField ← { keyIndex F list:
+MaxAt ← { keyIndex F list:
   m ← ⌈˝ (keyIndex⊸⊑)¨ list
   m⊑list
 }
 ```
 
 ```apl
-findRecordWithMaxField ← {keyIndex F 𝕩: {⊢⊑˜⌈˝(keyIndex⊸⊑)¨} 𝕩}
+MaxAt ← {keyIndex F 𝕩: {⊢⊑˜⌈˝(keyIndex⊸⊑)¨} 𝕩}
 ```
 
 ```apl
-findRecordWithMaxField ← {⊢⊑˜⌈˝(⊣⊸⊑)¨}
-findRecordWithMaxField ← ⊢⊑˜⌈˝(⊣⊸⊑)¨
+  MaxAt ← {(⌈´⊸(⊑⊒˜)(𝕨⊸⊑¨ 𝕩))⊑𝕩
+  0 MaxAt ⟨5‿3, 0‿5, 2‿1, 13‿0, 8‿2⟩
+⟨ 13 0 ⟩
+  1 MaxAt ⟨5‿3, 0‿5, 2‿1, 13‿0, 8‿2⟩
+⟨ 0 5 ⟩
 ```
