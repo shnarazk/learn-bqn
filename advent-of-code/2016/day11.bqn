@@ -1,13 +1,12 @@
 #!/usr/bin/env cbqn
-# ⟨ToIndex, num_elements, example_start, state⟩ ⇐
-⟨For⟩ ← •Import "../lib.bqn"
+⟨For, MaxAt⟩ ← •Import "../lib.bqn"
 numKinds ← 2
 numStates ← 4⋆1+2×numKinds
 # Element layout:
 # - expanded (0/1)
 # - cost (0<)
 # - state index
-MakeState ←{(<⟨0, 0, ¯1⟩) {⟨1, 0, 1+2⊑𝕨⟩}` 𝕩}∘↕4⊸⋆1⊸+2⊸×
+MakeState ←{(<⟨0, ∞, ¯1⟩) {⟨1, 0, 1+2⊑𝕨⟩}` 𝕩}∘↕4⊸⋆1⊸+2⊸×
 states ← MakeState numKinds
 •Show states
 •Show "states"
@@ -26,8 +25,7 @@ IsSafe ← {
     kind F state:
         generator ← 1+2×kind
         microchip ← 2+2×kind
-        # (generator⊑state = microchip⊑state) ∨ (∧´ 0⊸=¨ 1+2×↕numKinds)
-        1
+        (generator⊑state = microchip⊑state) ∨ (∧´ 0⊸=¨ 1+2×↕numKinds)
 }
 IsGoal ← { F state: ∧´ {3=𝕩⊑state}¨ 1+2×↕numKinds }
 # Returns the set of objects which you can move with elevator from the current floor.
@@ -41,6 +39,7 @@ NextObjectsStates ← { F state:
     objects ← {(⊑𝕩)⊸=¨ 1↓𝕩} state
     # •Show (objects×Mask)¨ ↕2⋆2×numKinds
     # •Show ⍷(⌈´objects×Mask)¨ ↕2⋆2×numKinds
+    # Fixme
     ({⌈´𝕩 ∧ objects=𝕩}¨)⊸/⍷(objects×Mask)¨ ↕2⋆2×numKinds
 }
 
@@ -69,8 +68,8 @@ Seek ← { F init:
             i ← ToIndex state
             cost < ⊑i⊑states ? (0‿cost)˙⌾(i⊸⊑) states; @
         }¨ nexts
-        # seek the next target with the minimum cost
-        init
+        next ← 2⊸⊑ 0⊸MaxAt 1⊸⊑/states
+        F next
     }
 }
 # Part 1 Description: #####################################
