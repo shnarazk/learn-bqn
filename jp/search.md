@@ -18,3 +18,8 @@ findRecordWithMaxField ← { keyIndex F list:
 ```apl
 findRecordWithMaxField ← {keyIndex F 𝕩: {⊢⊑˜⌈˝(keyIndex⊸⊑)¨} 𝕩}
 ```
+
+```apl
+findRecordWithMaxField ← {⊢⊑˜⌈˝(⊣⊸⊑)¨}
+findRecordWithMaxField ← ⊢⊑˜⌈˝(⊣⊸⊑)¨
+```
