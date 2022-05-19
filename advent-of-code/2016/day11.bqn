@@ -1,5 +1,5 @@
 #!/usr/bin/env cbqn
-⟨For, MaxAt⟩ ← •Import "../lib.bqn"
+⟨MaxAt, While⟩ ← •Import "../lib.bqn"
 numKinds ← 2
 numStates ← 4⋆1+2×numKinds
 # Element layout:
@@ -58,7 +58,7 @@ NextStates ← { F state:
 }
 
 # Loop until reaching the goal
-Seek ← { F ii:
+SeekStep ← { F ii:
     init ← ToState ii
     {
         IsGoal init ? ⊑ii⊑states;
@@ -75,9 +75,21 @@ Seek ← { F ii:
         }¨ nexts
         •Show "eee"
         •Show {0=⊑𝕩}¨⊸/states
-        next ← 2⊸⊑ 1⊸MaxAt {0=⊑𝕩}¨⊸/states
-        •Show "next"‿next
-        F next
+        # next ← 2⊸⊑ 1⊸MaxAt {0=⊑𝕩}¨⊸/states
+        # •Show "next"‿next
+        # F next
+        0
+    }
+}
+Seek ← {
+    𝕤⋄ While 1‿{ 
+        cands ← {0=⊑𝕩}¨⊸/states
+        {
+            0 = ≠cands ? 0;
+            next ← 2⊸⊑ 1⊸MaxAt cands
+            res ← SeekStep next
+            0 < res ? res; @
+        }
     }
 }
 # Part 1 Description: #####################################
@@ -98,6 +110,7 @@ states ↩ MakeState numKinds
 start_state ← ⟨0, 1, 0, 2, 0⟩
 •Show (<"IsSafe")∾IsSafe start_state
 start ↩ ToIndex start_state
+states ↩ ⟨0, 0, start⟩˙⌾(start⊸⊑) states
 •Show { (ToState 𝕩)‿𝕩‿(ToIndex ToState 𝕩) } start
 "Fail to build the 1-arrow" ! (ToState∘ToIndex)⊸(∧´=) start_state
 # •Show NextStates ToState start
