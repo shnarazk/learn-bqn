@@ -4,30 +4,23 @@ numKinds ← 2
 numStates ← 4⋆1+2×numKinds
 # Element layout:
 # - cost (0<)
-# - state index
-# MakeState ← {(<⟨1, ∞, ¯1, ¯∞⟩) {⟨1, ∞, 1+2⊑𝕨, ¯∞⟩}` 𝕩}(↕(4⊸⋆(1⊸+(2⊸×))))
 MakeState ← ∞`(↕(4⊸⋆(1⊸+(2⊸×))))
 states ← MakeState numKinds
-# •Show states
-# •Show "states"
 start ← 0
 goal ← 1023
 ToIndex ← (+⟜(4⊸×))´⌽
 ToState ← {
     (¯1+¯2×numKinds)↑ {
         F 0: ⟨0⟩;
-        F n:
-            {(F (n-𝕩)÷4)∾𝕩} 4|n
+        F n: {(F (n-𝕩)÷4)∾𝕩} 4|n
     } 𝕩
 }
-
 # Return 1 if 𝕩 is safe for all microtips
 IsSafe ← { 
          F state: ⌊´ state⊸(F˜)¨ ↕numKinds;
     kind F state:
         floor ← (2+2×kind)⊑state
         generator ← 1+2×kind
-        # •Show ⟨"kind", kind, state, (floor=generator⊑state) ∨ (∧´ {floor ≠ 𝕩⊑state}¨ 1+2×↕numKinds)⟩
         (floor=generator⊑state) ∨ (∧´ {floor ≠ 𝕩⊑state}¨ 1+2×↕numKinds)
 }
 IsGoal ← { F state: ∧´ (3⊸=)¨ state }
@@ -39,21 +32,16 @@ NextObjectsStates ← { F state:
             F n: {(F (n-𝕩)÷2)∾𝕩} 2|n
         } 𝕩
     }
-    # •Show "state"‿state
     objects ← {(⊑𝕩)⊸=¨ 1↓𝕩} state
-    # •Show (objects×Mask)¨ ↕2⋆2×numKinds
-    # •Show ⍷(⌈´objects×Mask)¨ ↕2⋆2×numKinds
     cands ← ({⌈´𝕩 ∧ objects=𝕩}¨)⊸/⍷(objects×Mask)¨ ↕2⋆2×numKinds
     {2 ≥ +´}¨⊸/cands
     {s ← +´𝕩⋄ (1≤s)∧(s≤2)}¨⊸/cands
 }
-
 # Returns the set of valid and safe states transited from the current state.
 NextStates ← { F state:
     elevator ← ⊑state
     objects ← 1↓state
     w ← NextObjectsStates state
-    # •Show w
     nextFloors ← {(0≤𝕩)∧(𝕩<4)}¨⊸/⟨¯1+elevator, 1+elevator⟩
     # •Show ⥊ nextFloors {𝕨∾ 𝕨×𝕩}⌜ w
     cands ← ⥊ nextFloors {𝕨∾ ((¬𝕩)×objects) + 𝕨×𝕩}⌜ w
@@ -62,18 +50,12 @@ NextStates ← { F state:
     # •Show ⟨>≠cands, " => ", >≠results⟩
     results
 }
-# •Show NextStates ⟨0, 3, 3, 3, 3⟩
-# •Show NextStates ⟨2, 3, 2, 3, 3⟩
-# •Show NextStates ⟨3, 3, 3, 3, 0⟩
-# ! 0
 # Loop until reaching the goal
-SeekStep ← { F ii:
+SeekStep ← { cost F ii:
     init ← ToState ii
     {
         # •Show ⟨"expand", ii, IsGoal init, ii⊑states⟩
         goal = ii ? ii⊑states;
-        cost ← ii⊑states
-        cost+↩ 1
         nexts ← NextStates init
         # •Show ≠ nexts
         {
@@ -83,26 +65,22 @@ SeekStep ← { F ii:
                 # •Show ⟨"update", i, i⊑states⟩
             ; @
         }¨ nexts
-        # •Show "eee"
-        # •Show {0=⊑𝕩}¨⊸/states
-        # next ← 2⊸⊑ 1⊸MaxAt {0=⊑𝕩}¨⊸/states
-        # •Show "next"‿next
-        # F next
         0
     }
 }
 Seek ← {
-    indexes ← ↕≠states
+    len ← ≠states
+    indexes ← ↕len
     cost ← 0
-    res ← 0
-    𝕤⋄ While {𝕤⋄ 0 = res}‿{
+    p ← 0
+    𝕤⋄ While {𝕤⋄ ∞ = ¯1⊑states}‿{
         𝕤
-        •Show "cost"‿cost
-        res ↩ ¯1
-        { cost = 𝕩⊑states ? res ↩ res Max SeekStep 𝕩; @ }¨ indexes
-        cost+↩1
+        •Show "cost"‿cost‿(p÷len)
+        c ← 1+cost
+        { cost = 𝕩⊑states ? c SeekStep 𝕩 ⋄ p+↩1; @ }¨ indexes
+        cost ↩ c
     }
-    res
+    cost
 }
 # Part 1 Description: #####################################
 # - 0: a hydrogen M, a lithium M.
@@ -115,8 +93,6 @@ Seek ← {
 #     0‿0‿0‿1‿0
 #     0‿1‿0‿0‿0
 #     1‿0‿1‿0‿1
-# flag‿cost‿status for Dijkstra(plae the position of elevator at first): 0‿0‿0‿1‿0‿2‿0
-# For Dijkstra: flag‿cost[0×256+1×64+0×16+2×4+0×1=72] = 1‿0
 numKinds ↩ 2
 states ↩ MakeState numKinds
 start_state ← ⟨0, 1, 0, 2, 0⟩
