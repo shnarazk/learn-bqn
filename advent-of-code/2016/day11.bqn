@@ -12,6 +12,7 @@ states ← MakeState numKinds
 # •Show states
 # •Show "states"
 start ← 0
+goal ← 1023
 ToIndex ← (+⟜(4⊸×))´⌽
 ToState ← {
     (¯1+¯2×numKinds)↑ {
@@ -69,7 +70,7 @@ SeekStep ← { F ii:
     init ← ToState ii
     {
         •Show ⟨"expand", ii, IsGoal init, ii⊑states⟩
-        IsGoal init ? 1⊑ii⊑states;
+        goal = ii ? 1⊑ii⊑states;
         cost ← 1⊑ii⊑states
         from ← 3⊑ii⊑states
         states ↩ (1‿cost‿ii‿from)˙⌾(ii⊸⊑) states
@@ -80,7 +81,7 @@ SeekStep ← { F ii:
             i ← ToIndex 𝕩
             cost < 1⊑i⊑states ?
                 states ↩ (0‿cost‿i‿ii)˙⌾(i⊸⊑) states
-                •Show ⟨"update", i, i⊑states⟩
+                # •Show ⟨"update", i, i⊑states⟩
             ; @
         }¨ nexts
         # •Show "eee"
@@ -122,6 +123,7 @@ states ↩ MakeState numKinds
 start_state ← ⟨0, 1, 0, 2, 0⟩
 •Show (<"IsSafe")∾IsSafe start_state
 start ↩ ToIndex start_state
+goal ↩ ToIndex ⟨3, 3, 3, 3, 3⟩
 states ↩ ⟨0, 0, start, start⟩˙⌾(start⊸⊑) states
 •Show { (ToState 𝕩)‿𝕩‿(ToIndex ToState 𝕩) } start
 "Fail to build the 1-arrow" ! (ToState∘ToIndex)⊸(∧´=) start_state
@@ -144,6 +146,7 @@ states ↩ ⟨0, 0, start, start⟩˙⌾(start⊸⊑) states
 numKinds ↩ 5
 states ↩ MakeState numKinds
 start ↩ ToIndex ⟨0, 0, 0, 0, 0, 1, 2, 1, 1, 1, 1⟩
+goal ↩ ToIndex ⟨3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3⟩
 states ↩ ⟨0, 0, start, start⟩˙⌾(start⊸⊑) states
 •Show Seek @
 # Part 2: #####################################
