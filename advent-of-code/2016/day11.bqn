@@ -1,12 +1,13 @@
 #!/usr/bin/env cbqn
-⟨MaxAt, While⟩ ← •Import "../lib.bqn"
+⟨MinAt, While⟩ ← •Import "../lib.bqn"
 numKinds ← 2
 numStates ← 4⋆1+2×numKinds
 # Element layout:
 # - expanded (0/1)
 # - cost (0<)
 # - state index
-MakeState ← {(<⟨1, ∞, ¯1⟩) {⟨1, ∞, 1+2⊑𝕨⟩}` 𝕩}(↕(4⊸⋆(1⊸+(2⊸×))))
+# - moved-from
+MakeState ← {(<⟨1, ∞, ¯1, ¯∞⟩) {⟨1, ∞, 1+2⊑𝕨, ¯∞⟩}` 𝕩}(↕(4⊸⋆(1⊸+(2⊸×))))
 states ← MakeState numKinds
 # •Show states
 # •Show "states"
@@ -28,7 +29,7 @@ IsSafe ← {
         # •Show ⟨"kind", kind, state, (floor=generator⊑state) ∨ (∧´ {floor ≠ 𝕩⊑state}¨ 1+2×↕numKinds)⟩
         (floor=generator⊑state) ∨ (∧´ {floor ≠ 𝕩⊑state}¨ 1+2×↕numKinds)
 }
-IsGoal ← { F state: ∧´ {3=𝕩⊑state}¨ 1+2×↕numKinds }
+IsGoal ← { F state: ∧´ (3⊸=)¨ state }
 # Returns the set of objects which you can move with elevator from the current floor.
 NextObjectsStates ← { F state:
     Mask ← {
@@ -40,7 +41,9 @@ NextObjectsStates ← { F state:
     objects ← {(⊑𝕩)⊸=¨ 1↓𝕩} state
     # •Show (objects×Mask)¨ ↕2⋆2×numKinds
     # •Show ⍷(⌈´objects×Mask)¨ ↕2⋆2×numKinds
-    ({⌈´𝕩 ∧ objects=𝕩}¨)⊸/⍷(objects×Mask)¨ ↕2⋆2×numKinds
+    cands ← ({⌈´𝕩 ∧ objects=𝕩}¨)⊸/⍷(objects×Mask)¨ ↕2⋆2×numKinds
+    {2 ≥ +´}¨⊸/cands
+    {s ← +´𝕩⋄ (1≤s)∧(s≤2)}¨⊸/cands
 }
 
 # Returns the set of valid and safe states transited from the current state.
@@ -48,33 +51,40 @@ NextStates ← { F state:
     elevator ← ⊑state
     objects ← 1↓state
     w ← NextObjectsStates state
-    nextFloors ← elevator⊸≠¨⊸/ ↕4
+    # •Show w
+    nextFloors ← {(0≤𝕩)∧(𝕩<4)}¨⊸/⟨¯1+elevator, 1+elevator⟩
     # •Show ⥊ nextFloors {𝕨∾ 𝕨×𝕩}⌜ w
     cands ← ⥊ nextFloors {𝕨∾ ((¬𝕩)×objects) + 𝕨×𝕩}⌜ w
-    •Show IsSafe¨ cands
+    # •Show IsSafe¨ cands
     results ← IsSafe¨⊸/ cands
-    •Show ⟨>≠cands, " => ", >≠results⟩
+    # •Show ⟨>≠cands, " => ", >≠results⟩
     results
 }
-
+# •Show NextStates ⟨0, 3, 3, 3, 3⟩
+# •Show NextStates ⟨2, 3, 2, 3, 3⟩
+# •Show NextStates ⟨3, 3, 3, 3, 0⟩
+# ! 0
 # Loop until reaching the goal
 SeekStep ← { F ii:
     init ← ToState ii
     {
-        IsGoal init ? ⊑ii⊑states;
-        cost ← ⊑init
-        nexts ← NextStates init
-        •Show ≠ nexts
-        (1‿cost‿ii)˙⌾(ii⊸⊑) states
+        •Show ⟨"expand", ii, IsGoal init, ii⊑states⟩
+        IsGoal init ? 1⊑ii⊑states;
+        cost ← 1⊑ii⊑states
+        from ← 3⊑ii⊑states
+        states ↩ (1‿cost‿ii‿from)˙⌾(ii⊸⊑) states
         cost+↩ 1
+        nexts ← NextStates init
+        # •Show ≠ nexts
         {
-            state ← 𝕩
-            i ← ToIndex state
-            •Show ⟨"update: ", i, 1⊑i⊑states⟩
-            cost < 1⊑i⊑states ? states ↩ (0‿cost‿i)˙⌾(i⊸⊑) states; @
+            i ← ToIndex 𝕩
+            cost < 1⊑i⊑states ?
+                states ↩ (0‿cost‿i‿ii)˙⌾(i⊸⊑) states
+                •Show ⟨"update", i, i⊑states⟩
+            ; @
         }¨ nexts
-        •Show "eee"
-        •Show {0=⊑𝕩}¨⊸/states
+        # •Show "eee"
+        # •Show {0=⊑𝕩}¨⊸/states
         # next ← 2⊸⊑ 1⊸MaxAt {0=⊑𝕩}¨⊸/states
         # •Show "next"‿next
         # F next
@@ -82,15 +92,17 @@ SeekStep ← { F ii:
     }
 }
 Seek ← {
-    𝕤⋄ While 1‿{ 
+    res ← 0
+    𝕤⋄ While {𝕤⋄ 0 = res}‿{
+        𝕤
         cands ← {0=⊑𝕩}¨⊸/states
         {
-            0 = ≠cands ? 0;
-            next ← 2⊸⊑ 1⊸MaxAt cands
-            res ← SeekStep next
-            0 < res ? res; @
+            0 = ≠cands ? res ↩ ¯1;
+            next ← 2⊸⊑ 1⊸MinAt cands
+            res ↩ SeekStep next
         }
     }
+    res
 }
 # Part 1 Description: #####################################
 # - 0: a hydrogen M, a lithium M.
@@ -110,11 +122,19 @@ states ↩ MakeState numKinds
 start_state ← ⟨0, 1, 0, 2, 0⟩
 •Show (<"IsSafe")∾IsSafe start_state
 start ↩ ToIndex start_state
-states ↩ ⟨0, 0, start⟩˙⌾(start⊸⊑) states
+states ↩ ⟨0, 0, start, start⟩˙⌾(start⊸⊑) states
 •Show { (ToState 𝕩)‿𝕩‿(ToIndex ToState 𝕩) } start
 "Fail to build the 1-arrow" ! (ToState∘ToIndex)⊸(∧´=) start_state
 # •Show NextStates ToState start
-•Show Seek start
+•Show Seek @
+•Show ToState 15
+•Show 15⊑states
+•Show ToState 975
+•Show 975⊑states
+•Show ToState 327
+•Show 327⊑states
+•Show ToState 847
+•Show 847⊑states
 # Part 1: #####################################
 # - 0: a strontium G, a strontium M, a plutonium G, a plutonium M.
 # - 1: a thulium G, a ruthenium G, a ruthenium M, a curium G, a curium M.
@@ -124,4 +144,6 @@ states ↩ ⟨0, 0, start⟩˙⌾(start⊸⊑) states
 numKinds ↩ 5
 states ↩ MakeState numKinds
 start ↩ ToIndex ⟨0, 0, 0, 0, 0, 1, 2, 1, 1, 1, 1⟩
+states ↩ ⟨0, 0, start, start⟩˙⌾(start⊸⊑) states
+•Show Seek @
 # Part 2: #####################################
