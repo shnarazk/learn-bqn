@@ -58,8 +58,8 @@ NextStates ← { F state:
 }
 
 # Loop until reaching the goal
-Seek ← { F init:
-    ii ← ToIndex init
+Seek ← { F ii:
+    init ← ToState ii
     {
         IsGoal init ? ⊑ii⊑states;
         cost ← ⊑init
@@ -76,6 +76,7 @@ Seek ← { F init:
         •Show "eee"
         •Show {0=⊑𝕩}¨⊸/states
         next ← 2⊸⊑ 1⊸MaxAt {0=⊑𝕩}¨⊸/states
+        •Show "next"‿next
         F next
     }
 }
@@ -100,7 +101,7 @@ start ↩ ToIndex start_state
 •Show { (ToState 𝕩)‿𝕩‿(ToIndex ToState 𝕩) } start
 "Fail to build the 1-arrow" ! (ToState∘ToIndex)⊸(∧´=) start_state
 # •Show NextStates ToState start
-•Show Seek start_state
+•Show Seek start
 # Part 1: #####################################
 # - 0: a strontium G, a strontium M, a plutonium G, a plutonium M.
 # - 1: a thulium G, a ruthenium G, a ruthenium M, a curium G, a curium M.
