@@ -1,14 +1,12 @@
 #!/usr/bin/env cbqn
-⟨MinAt, While⟩ ← •Import "../lib.bqn"
+⟨Max, MinAt, While⟩ ← •Import "../lib.bqn"
 numKinds ← 2
 numStates ← 4⋆1+2×numKinds
 # Element layout:
-# - expanded (0/1)
 # - cost (0<)
 # - state index
-# - moved-from
 # MakeState ← {(<⟨1, ∞, ¯1, ¯∞⟩) {⟨1, ∞, 1+2⊑𝕨, ¯∞⟩}` 𝕩}(↕(4⊸⋆(1⊸+(2⊸×))))
-MakeState ← {(<⟨1, ∞, ¯1⟩) {⟨1, ∞, 1+2⊑𝕨⟩}` 𝕩}(↕(4⊸⋆(1⊸+(2⊸×))))
+MakeState ← ∞`(↕(4⊸⋆(1⊸+(2⊸×))))
 states ← MakeState numKinds
 # •Show states
 # •Show "states"
@@ -18,7 +16,8 @@ ToIndex ← (+⟜(4⊸×))´⌽
 ToState ← {
     (¯1+¯2×numKinds)↑ {
         F 0: ⟨0⟩;
-        F n: {(F (n-𝕩)÷4)∾𝕩} 4|n
+        F n:
+            {(F (n-𝕩)÷4)∾𝕩} 4|n
     } 𝕩
 }
 
@@ -40,6 +39,7 @@ NextObjectsStates ← { F state:
             F n: {(F (n-𝕩)÷2)∾𝕩} 2|n
         } 𝕩
     }
+    # •Show "state"‿state
     objects ← {(⊑𝕩)⊸=¨ 1↓𝕩} state
     # •Show (objects×Mask)¨ ↕2⋆2×numKinds
     # •Show ⍷(⌈´objects×Mask)¨ ↕2⋆2×numKinds
@@ -71,17 +71,15 @@ SeekStep ← { F ii:
     init ← ToState ii
     {
         # •Show ⟨"expand", ii, IsGoal init, ii⊑states⟩
-        goal = ii ? 1⊑ii⊑states;
-        cost ← 1⊑ii⊑states
-        # from ← 3⊑ii⊑states
-        states ↩ (1‿cost‿ii)˙⌾(ii⊸⊑) states
+        goal = ii ? ii⊑states;
+        cost ← ii⊑states
         cost+↩ 1
         nexts ← NextStates init
         # •Show ≠ nexts
         {
             i ← ToIndex 𝕩
-            cost < 1⊑i⊑states ?
-                states ↩ (0‿cost‿i)˙⌾(i⊸⊑) states
+            ∞ = i⊑states ?
+                states ↩ cost˙⌾(i⊸⊑) states
                 # •Show ⟨"update", i, i⊑states⟩
             ; @
         }¨ nexts
@@ -94,23 +92,15 @@ SeekStep ← { F ii:
     }
 }
 Seek ← {
+    indexes ← ↕≠states
     cost ← 0
     res ← 0
     𝕤⋄ While {𝕤⋄ 0 = res}‿{
         𝕤
-        cands ← {0=⊑𝕩}¨⊸/states
-        {
-            0 = ≠cands ? res ↩ ¯1;
-            next ← 2⊸⊑ 1⊸MinAt cands
-            c ← 1⊑next⊑states
-            {
-                cost < c ?
-                    •Show c
-                    cost ↩ c
-                ; @
-            }
-            res ↩ SeekStep next
-        }
+        •Show "cost"‿cost
+        res ↩ ¯1
+        { cost = 𝕩⊑states ? res ↩ res Max SeekStep 𝕩; @ }¨ indexes
+        cost+↩1
     }
     res
 }
@@ -133,7 +123,7 @@ start_state ← ⟨0, 1, 0, 2, 0⟩
 •Show (<"IsSafe")∾IsSafe start_state
 start ↩ ToIndex start_state
 goal ↩ ToIndex ⟨3, 3, 3, 3, 3⟩
-states ↩ ⟨0, 0, start⟩˙⌾(start⊸⊑) states
+states ↩ 0˙⌾(start⊸⊑) states
 •Show { (ToState 𝕩)‿𝕩‿(ToIndex ToState 𝕩) } start
 "Fail to build the 1-arrow" ! (ToState∘ToIndex)⊸(∧´=) start_state
 # •Show NextStates ToState start
@@ -156,6 +146,6 @@ numKinds ↩ 5
 states ↩ MakeState numKinds
 start ↩ ToIndex ⟨0, 0, 0, 0, 0, 1, 2, 1, 1, 1, 1⟩
 goal ↩ ToIndex ⟨3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3⟩
-states ↩ ⟨0, 0, start⟩˙⌾(start⊸⊑) states
+states ↩ 0˙⌾(start⊸⊑) states
 •Show Seek @
 # Part 2: #####################################
