@@ -21,11 +21,11 @@ ToState ← {
 
 # Return 1 if 𝕩 is safe for all microtips
 IsSafe ← { 
-         F state: ⌊´ state⊸F˜¨ ↕numKinds;
+         F state: ⌊´ state⊸(F˜)¨ ↕numKinds;
     kind F state:
         generator ← 1+2×kind
         microchip ← 2+2×kind
-        (generator⊑state = microchip⊑state) ∨ (∧´ 0⊸=¨ 1+2×↕numKinds)
+        ((generator⊑state) = (microchip⊑state)) ∨ (∧´ 0⊸=¨ 1+2×↕numKinds)
 }
 IsGoal ← { F state: ∧´ {3=𝕩⊑state}¨ 1+2×↕numKinds }
 # Returns the set of objects which you can move with elevator from the current floor.
@@ -51,7 +51,7 @@ NextStates ← { F state:
     nextFloors ← elevator⊸≠¨⊸/ ↕4
     # •Show ⥊ nextFloors {𝕨∾ 𝕨×𝕩}⌜ w
     cands ← ⥊ nextFloors {𝕨∾ ((¬𝕩)×objects) + 𝕨×𝕩}⌜ w
-    IsSafe⊸/ cands
+    IsSafe¨⊸/ cands
 }
 
 # Loop until reaching the goal
