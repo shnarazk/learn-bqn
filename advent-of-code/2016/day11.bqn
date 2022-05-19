@@ -7,7 +7,8 @@ numStates ← 4⋆1+2×numKinds
 # - cost (0<)
 # - state index
 # - moved-from
-MakeState ← {(<⟨1, ∞, ¯1, ¯∞⟩) {⟨1, ∞, 1+2⊑𝕨, ¯∞⟩}` 𝕩}(↕(4⊸⋆(1⊸+(2⊸×))))
+# MakeState ← {(<⟨1, ∞, ¯1, ¯∞⟩) {⟨1, ∞, 1+2⊑𝕨, ¯∞⟩}` 𝕩}(↕(4⊸⋆(1⊸+(2⊸×))))
+MakeState ← {(<⟨1, ∞, ¯1⟩) {⟨1, ∞, 1+2⊑𝕨⟩}` 𝕩}(↕(4⊸⋆(1⊸+(2⊸×))))
 states ← MakeState numKinds
 # •Show states
 # •Show "states"
@@ -69,18 +70,18 @@ NextStates ← { F state:
 SeekStep ← { F ii:
     init ← ToState ii
     {
-        •Show ⟨"expand", ii, IsGoal init, ii⊑states⟩
+        # •Show ⟨"expand", ii, IsGoal init, ii⊑states⟩
         goal = ii ? 1⊑ii⊑states;
         cost ← 1⊑ii⊑states
-        from ← 3⊑ii⊑states
-        states ↩ (1‿cost‿ii‿from)˙⌾(ii⊸⊑) states
+        # from ← 3⊑ii⊑states
+        states ↩ (1‿cost‿ii)˙⌾(ii⊸⊑) states
         cost+↩ 1
         nexts ← NextStates init
         # •Show ≠ nexts
         {
             i ← ToIndex 𝕩
             cost < 1⊑i⊑states ?
-                states ↩ (0‿cost‿i‿ii)˙⌾(i⊸⊑) states
+                states ↩ (0‿cost‿i)˙⌾(i⊸⊑) states
                 # •Show ⟨"update", i, i⊑states⟩
             ; @
         }¨ nexts
@@ -93,6 +94,7 @@ SeekStep ← { F ii:
     }
 }
 Seek ← {
+    cost ← 0
     res ← 0
     𝕤⋄ While {𝕤⋄ 0 = res}‿{
         𝕤
@@ -100,6 +102,13 @@ Seek ← {
         {
             0 = ≠cands ? res ↩ ¯1;
             next ← 2⊸⊑ 1⊸MinAt cands
+            c ← 1⊑next⊑states
+            {
+                cost < c ?
+                    •Show c
+                    cost ↩ c
+                ; @
+            }
             res ↩ SeekStep next
         }
     }
@@ -124,19 +133,19 @@ start_state ← ⟨0, 1, 0, 2, 0⟩
 •Show (<"IsSafe")∾IsSafe start_state
 start ↩ ToIndex start_state
 goal ↩ ToIndex ⟨3, 3, 3, 3, 3⟩
-states ↩ ⟨0, 0, start, start⟩˙⌾(start⊸⊑) states
+states ↩ ⟨0, 0, start⟩˙⌾(start⊸⊑) states
 •Show { (ToState 𝕩)‿𝕩‿(ToIndex ToState 𝕩) } start
 "Fail to build the 1-arrow" ! (ToState∘ToIndex)⊸(∧´=) start_state
 # •Show NextStates ToState start
 •Show Seek @
-•Show ToState 15
-•Show 15⊑states
-•Show ToState 975
-•Show 975⊑states
-•Show ToState 327
-•Show 327⊑states
-•Show ToState 847
-•Show 847⊑states
+# •Show ToState 15
+# •Show 15⊑states
+# •Show ToState 975
+# •Show 975⊑states
+# •Show ToState 327
+# •Show 327⊑states
+# •Show ToState 847
+# •Show 847⊑states
 # Part 1: #####################################
 # - 0: a strontium G, a strontium M, a plutonium G, a plutonium M.
 # - 1: a thulium G, a ruthenium G, a ruthenium M, a curium G, a curium M.
@@ -147,6 +156,6 @@ numKinds ↩ 5
 states ↩ MakeState numKinds
 start ↩ ToIndex ⟨0, 0, 0, 0, 0, 1, 2, 1, 1, 1, 1⟩
 goal ↩ ToIndex ⟨3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3⟩
-states ↩ ⟨0, 0, start, start⟩˙⌾(start⊸⊑) states
+states ↩ ⟨0, 0, start⟩˙⌾(start⊸⊑) states
 •Show Seek @
 # Part 2: #####################################
