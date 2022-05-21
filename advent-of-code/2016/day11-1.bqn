@@ -32,7 +32,8 @@ NextObjectsStates ← { F state:
     {s ← +´𝕩⋄ (1≤s)∧(s≤2)}¨⊸/cands
 }
 # Returns the set of valid and safe states transited from the current state.
-NextStates ← { F state:
+NextStates ← { F index:
+    state ← ToState index
     elevator ← ⊑state
     objects ← 1↓state
     w ← NextObjectsStates state
@@ -40,34 +41,37 @@ NextStates ← { F state:
     cands ← ⥊ nextFloors {𝕨∾ ((¬𝕩)×objects) + 𝕨×𝕩}⌜ w
     IsSafe¨⊸/ cands
 }
-SeekStep ← { checked F ii:
-    init ← ToState ii
-    list ← ⟨⟩
-    {
-        {
-            i ← ToIndex 𝕩
-            # •Show ⟨"from", ii, "to", i, list⟩
-            ⟨i⟩ ¬∘⊑∘∊ checked ? list∾↩⟨i⟩ ; @
-        }¨ NextStates init
-    }
-    list
+Estimate ← { F state:
+    cs ← 2⊸|¨ ≠state
+    gs ← ¬¨ cs
+    dist ← 3-¨ state
+    (2×+´1↓cs×dist) + +´1↓gs×dist
 }
 Seek ← { F init:
     numKinds ↩ 2÷˜¯1+≠init
     goal ← ¯1+4⋆≠init
-    toCheck ← ⟨ToIndex init⟩
+    toCheck ← ⟨⟨0, 0, ToIndex init⟩⟩
     checked ← ⟨⟩
-    cost ← 0
+    SeekStep ← { F ⟨est, cost, ii⟩:
+        {
+            i ← ToIndex 𝕩
+            (⟨i⟩ ¬∘⊑∘∊ checked) ∧ (⟨i⟩ ¬∘⊑∘∊ ((2⊸⊑)¨ toCheck)) ?
+                toCheck ∾↩ ⟨⟨cost+1+Estimate 𝕩, cost+1, i⟩⟩ ; @
+        }¨ NextStates ii
+    }
     𝕤⋄ While {𝕤⋄ ⟨goal⟩ ¬∘⊑∘∊ checked}‿{
         𝕤
-        •Show ⟨"cost", cost⟩
-        cost+↩1
-        tmp ← toCheck
-        checked ∾↩ toCheck
-        toCheck ↩ ∾´ {checked SeekStep 𝕩}¨ tmp
-        # ! 0 < ≠toCheck
+        next ← ⊑toCheck
+        toCheck ↩ 1↓toCheck
+        index ← 2⊑next
+        checked ∾↩ ⟨index⟩
+        {
+            goal = index ? •Show ⟨"result", 1⊑next⟩;
+            SeekStep next
+            # (∧2⊸⊑¨toCheck) ! (30 >≠ toCheck)
+            toCheck ↩ ∧ toCheck
+        }
     }
-    cost-1
 }
 # Part 1 Description: #####################################
 # - 0: a hydrogen M, a lithium M.
@@ -80,12 +84,13 @@ Seek ← { F init:
 #     0‿0‿0‿1‿0
 #     0‿1‿0‿0‿0
 #     1‿0‿1‿0‿1
-•Show Seek ⟨0, 1, 0, 2, 0⟩
+# Seek ⟨0, 1, 0, 2, 0⟩
 # Part 1: #####################################
 # - 0: a strontium G, a strontium M, a plutonium G, a plutonium M.
 # - 1: a thulium G, a ruthenium G, a ruthenium M, a curium G, a curium M.
 # - 2: a thulium M.
 # - 3: nothing relevant.
 # Encode: strontium, plutonium, thulium, ruthenium, curium
-•Show Seek ⟨0, 0, 0, 0, 0, 1, 2, 1, 1, 1, 1⟩
+Seek ⟨0, 0, 0, 0, 0, 1, 2, 1, 1, 1, 1⟩
 # Part 2: #####################################
+# Seek ⟨0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1⟩
