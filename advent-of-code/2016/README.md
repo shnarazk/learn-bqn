@@ -128,3 +128,19 @@ To solve part 2, we need to implement Hash-table [object](https://mlochbaum.gith
     s.Pop @
     k.Len @
 ```
+
+```apl
+HashTableNew ← {
+  st←⟨⟩˙¨↕4⋆1+𝕩
+  mask←¬2⊸|¨↕1+2×𝕩
+  Key⇐{0 {𝕨+4×𝕩}´ mask/𝕩}
+  Add⇐{ F 𝕩: k ← Key 𝕩 ⋄ st↩ 𝕩⊸∾⌾k⊑st}
+  Contains ⇐{F 𝕩: k ← Key 𝕩 ⋄ 𝕩∊k⊑st}
+  Len ⇐{𝕤⋄ ≠st}
+  Dbg ⇐{mask/𝕩}
+}
+h ← HashTableNew 7
+h.Dbg ⟨0,0,0,0,0,1,2,1,1,1,1,0,0,0,0⟩
+h.Key ⟨3,0,3,0,3,1,3,1,3,1,3,0,3,0,3⟩
+# h.Len @
+```
