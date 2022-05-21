@@ -106,3 +106,9 @@ B0 -- 5 --> OUTPUT0=5;
 | 2     | B2, B1     |
 | 3     | B2, B1, B0 |
 | 5     | B2, B1, B0 |
+
+## day 11
+
+To solve part 2, we need to implement Hash-table [object](https://mlochbaum.github.io/BQN/doc/oop.html) using with chain scheme.
+- method `add`
+- method `contains`
