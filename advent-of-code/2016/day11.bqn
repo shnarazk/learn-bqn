@@ -7,7 +7,6 @@ numStates ← 4⋆1+2×numKinds
 MakeState ← ∞`(↕(4⊸⋆(1⊸+(2⊸×))))
 states ← MakeState numKinds
 start ← 0
-goal ← 1023
 ToIndex ← (+⟜(4⊸×))´⌽
 ToState ← {
     (¯1+¯2×numKinds)↑ {
@@ -23,7 +22,6 @@ IsSafe ← {
         generator ← 1+2×kind
         (floor=generator⊑state) ∨ (∧´ {floor ≠ 𝕩⊑state}¨ 1+2×↕numKinds)
 }
-IsGoal ← { F state: ∧´ (3⊸=)¨ state }
 # Returns the set of objects which you can move with elevator from the current floor.
 NextObjectsStates ← { F state:
     Mask ← {
@@ -50,12 +48,10 @@ NextStates ← { F state:
     # •Show ⟨>≠cands, " => ", >≠results⟩
     results
 }
-# Loop until reaching the goal
 SeekStep ← { cost F ii:
     init ← ToState ii
     {
-        # •Show ⟨"expand", ii, IsGoal init, ii⊑states⟩
-        goal = ii ? ii⊑states;
+        # •Show ⟨"expand", ii, ii⊑states⟩
         nexts ← NextStates init
         # •Show ≠ nexts
         {
@@ -65,7 +61,6 @@ SeekStep ← { cost F ii:
                 # •Show ⟨"update", i, i⊑states⟩
             ; @
         }¨ nexts
-        0
     }
 }
 Seek ← {
@@ -75,7 +70,7 @@ Seek ← {
     p ← 0
     𝕤⋄ While {𝕤⋄ ∞ = ¯1⊑states}‿{
         𝕤
-        •Show "cost"‿cost‿(p÷len)
+        # •Show "cost"‿cost‿(p÷len)
         c ← 1+cost
         { cost = 𝕩⊑states ? c SeekStep 𝕩 ⋄ p+↩1; @ }¨ indexes
         cost ↩ c
@@ -98,7 +93,6 @@ states ↩ MakeState numKinds
 start_state ← ⟨0, 1, 0, 2, 0⟩
 •Show (<"IsSafe")∾IsSafe start_state
 start ↩ ToIndex start_state
-goal ↩ ToIndex ⟨3, 3, 3, 3, 3⟩
 states ↩ 0˙⌾(start⊸⊑) states
 •Show { (ToState 𝕩)‿𝕩‿(ToIndex ToState 𝕩) } start
 "Fail to build the 1-arrow" ! (ToState∘ToIndex)⊸(∧´=) start_state
@@ -118,10 +112,29 @@ states ↩ 0˙⌾(start⊸⊑) states
 # - 2: a thulium M.
 # - 3: nothing relevant.
 # Encode: strontium, plutonium, thulium, ruthenium, curium
-numKinds ↩ 5
+# numKinds ↩ 5
+# states ↩ MakeState numKinds
+# start ↩ ToIndex ⟨0, 0, 0, 0, 0, 1, 2, 1, 1, 1, 1⟩
+# states ↩ 0˙⌾(start⊸⊑) states
+# •Show Seek @
+# Part 2: #####################################
+numKinds ↩ 1
 states ↩ MakeState numKinds
-start ↩ ToIndex ⟨0, 0, 0, 0, 0, 1, 2, 1, 1, 1, 1⟩
-goal ↩ ToIndex ⟨3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3⟩
+start ↩ ToIndex ⟨0, 0, 0⟩
 states ↩ 0˙⌾(start⊸⊑) states
 •Show Seek @
-# Part 2: #####################################
+numKinds ↩ 2
+states ↩ MakeState numKinds
+start ↩ ToIndex ⟨0, 0, 0, 0, 0⟩
+states ↩ 0˙⌾(start⊸⊑) states
+•Show Seek @
+numKinds ↩ 3
+states ↩ MakeState numKinds
+start ↩ ToIndex ⟨0, 0, 0, 0, 0, 0, 0⟩
+states ↩ 0˙⌾(start⊸⊑) states
+•Show Seek @
+numKinds ↩ 4
+states ↩ MakeState numKinds
+start ↩ ToIndex ⟨0, 0, 0, 0, 0, 0, 0, 0, 0⟩
+states ↩ 0˙⌾(start⊸⊑) states
+•Show Seek @
