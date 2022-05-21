@@ -110,5 +110,21 @@ B0 -- 5 --> OUTPUT0=5;
 ## day 11
 
 To solve part 2, we need to implement Hash-table [object](https://mlochbaum.github.io/BQN/doc/oop.html) using with chain scheme.
-- method `add`
-- method `contains`
+- method `Add`
+- method `Contains`
+
+```apl
+    MakeStack ← {𝕤
+      st←@
+      Push⇐{   st↩𝕩‿st}
+      Pop ⇐{𝕤⋄ r‿s←st ⋄ st↩s ⋄ r}
+      Len ⇐{𝕤⋄ ≠st}
+    }
+    s ← MakeStack @
+    k ← MakeStack @
+    s.Push 44
+    s.Push 2
+    s.Pop @
+    s.Pop @
+    k.Len @
+```
