@@ -32,13 +32,11 @@ NextObjectsStates ← { F state:
     {s ← +´𝕩⋄ (1≤s)∧(s≤2)}¨⊸/cands
 }
 # Returns the set of valid and safe states transited from the current state.
-NextStates ← { F index:
-    state ← ToState index
+NextStates ← { F state:
     elevator ← ⊑state
     objects ← 1↓state
-    w ← NextObjectsStates state
     nextFloors ← {(0≤𝕩)∧(𝕩<4)}¨⊸/⟨¯1+elevator, 1+elevator⟩
-    cands ← ⥊ nextFloors {𝕨∾ ((¬𝕩)×objects) + 𝕨×𝕩}⌜ w
+    cands ← ⥊ nextFloors {𝕨∾ ((¬𝕩)×objects) + 𝕨×𝕩}⌜ NextObjectsStates state
     IsSafe¨⊸/ cands
 }
 Estimate ← { F state:
@@ -47,29 +45,45 @@ Estimate ← { F state:
     dist ← 3-¨ state
     (2×+´1↓cs×dist) + +´1↓gs×dist
 }
+
+HashTableNew ← {
+  ht←⟨⟩˙¨↕4⋆1+𝕩
+  mask←¬2⊸|¨↕1+2×𝕩
+  Key⇐{0 {𝕨+4×𝕩}´ mask/ToState 𝕩}
+  Add⇐{ F 𝕩: k ← Key 𝕩 ⋄ ht↩ (𝕩⊸∾)⌾(k⊸⊑) ht}
+  Contains ⇐{F 𝕩: k ← Key 𝕩 ⋄ ⊑𝕩∊k⊑ht}
+  # Len ⇐{𝕤⋄ ≠ht}
+  # Dbg ⇐{mask/𝕩}
+}
 Seek ← { F init:
     numKinds ↩ 2÷˜¯1+≠init
     goal ← ¯1+4⋆≠init
     toCheck ← ⟨⟨0, 0, ToIndex init⟩⟩
-    checked ← ⟨⟩
+    checked ← HashTableNew numKinds
     SeekStep ← { F ⟨est, cost, ii⟩:
         {
             i ← ToIndex 𝕩
-            (⟨i⟩ ¬∘⊑∘∊ checked) ∧ (⟨i⟩ ¬∘⊑∘∊ ((2⊸⊑)¨ toCheck)) ?
-                toCheck ∾↩ ⟨⟨cost+1+Estimate 𝕩, cost+1, i⟩⟩ ; @
-        }¨ NextStates ii
+            # (¬checked.Contains i) ∧ (⟨i⟩ ¬∘⊑∘∊ ((2⊸⊑)¨ toCheck)) ?
+            ¬checked.Contains i ?
+                toCheck ∾↩ ⟨⟨cost+Estimate 𝕩, cost+1, i⟩⟩ ; @
+        }¨ NextStates ToState ii
     }
-    𝕤⋄ While {𝕤⋄ ⟨goal⟩ ¬∘⊑∘∊ checked}‿{
+    next ← ⟨⟩
+    𝕤⋄ While {𝕤⋄ ¬checked.Contains goal}‿{
         𝕤
         next ← ⊑toCheck
         toCheck ↩ 1↓toCheck
         index ← 2⊑next
-        checked ∾↩ ⟨index⟩
         {
-            goal = index ? •Show ⟨"result", 1⊑next⟩;
-            SeekStep next
-            # (∧2⊸⊑¨toCheck) ! (30 >≠ toCheck)
-            toCheck ↩ ∧ toCheck
+            goal = index ?
+                checked.Add index
+                •Show ⟨"result", 1⊑next⟩
+            ;
+            ¬checked.Contains index ?
+                checked.Add index
+                SeekStep next
+                toCheck ↩ ∧ toCheck
+            ; @
         }
     }
 }
@@ -93,4 +107,4 @@ Seek ← { F init:
 # Encode: strontium, plutonium, thulium, ruthenium, curium
 Seek ⟨0, 0, 0, 0, 0, 1, 2, 1, 1, 1, 1⟩
 # Part 2: #####################################
-# Seek ⟨0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1⟩
+# Seek ⟨0, 0, 0, 0, 0, 1, 2, 1, 1, 1, 1, 0, 0, 0, 0⟩
