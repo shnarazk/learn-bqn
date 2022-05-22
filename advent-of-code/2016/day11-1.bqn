@@ -10,7 +10,7 @@ ToState ← {
         F n: {(F (n-𝕩)÷4)∾𝕩} 4|n
     } 𝕩
 }
-# Return 1 if 𝕩 is safe for all microtips
+# Return 1 if 𝕩 is safe for all microchips
 IsSafe ← { 
          F state: ⌊´ state⊸(F˜)¨ ↕numKinds;
     kind F state:
@@ -27,9 +27,14 @@ NextObjectsStates ← { F state:
         } 𝕩
     }
     objects ← {(⊑𝕩)⊸=¨ 1↓𝕩} state
-    cands ← ({⌈´𝕩 ∧ objects=𝕩}¨)⊸/⍷(objects×Mask)¨ ↕2⋆2×numKinds
-    {2 ≥ +´}¨⊸/cands
-    {s ← +´𝕩⋄ (1≤s)∧(s≤2)}¨⊸/cands
+    blank ← 0˙¨1↓state
+    indexes ← objects/ ⊢×⟜(↕∘≠) objects
+    cands ← ⟨⟩
+    { F i:
+        cand ← 1˙⌾(i⊸⊑) blank
+        { F j: i≤j ? cands∾↩ <1˙⌾(j⊸⊑)cand; @ }¨ indexes
+    }¨ indexes
+    cands
 }
 # Returns the set of valid and safe states transited from the current state.
 NextStates ← { F state:
