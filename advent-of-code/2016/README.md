@@ -109,6 +109,8 @@ B0 -- 5 --> OUTPUT0=5;
 
 ## day 11
 
+- 20220522 GIVE UP PART 2.
+
 To solve part 2, we need to implement Hash-table [object](https://mlochbaum.github.io/BQN/doc/oop.html) using with chain scheme.
 - method `Add`
 - method `Contains`
